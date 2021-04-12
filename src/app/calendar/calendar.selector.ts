@@ -1,22 +1,21 @@
 import { createSelector } from '@ngrx/store';
-import { CalendarState } from './calendar.reducer';
 import { numberToFullMonthMappings, numberToShortMonthMappings } from './calendar.constants';
 
 const getCalendarState = createSelector(
-    state => state['calendar'],
+    state => state["global"]["calendar"],
     (calendarState) => calendarState 
 )
 
 export const getSelectedDate = createSelector(
   getCalendarState,
-  (calendarState: CalendarState) => {
+  (calendarState) => {
     return calendarState.selectedDate;
   }
 );
 
 export const getPreviewMonth = createSelector(
   getCalendarState,
-  (calendarState: CalendarState) => {
+  (calendarState) => {
     return calendarState.selectedMonth;
   }
 );
@@ -37,14 +36,14 @@ export const getPreviewMonthName = createSelector(
 
 export const getPreviewYear = createSelector(
   getCalendarState,
-  (calendarState: CalendarState) => {
+  (calendarState) => {
     return calendarState.selectedYear;
   }
 );
 
 export const getPreviewMonthAndYear = createSelector(
   getCalendarState,
-  (calendarState: CalendarState) => {
+  (calendarState) => {
     return [ calendarState.selectedMonth, calendarState.selectedYear];
   }
 );

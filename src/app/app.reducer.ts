@@ -1,0 +1,287 @@
+import { createReducer, on } from '@ngrx/store';
+import { colorDefinitions, allColors } from './colors/colors.constant';
+import {
+  resetCalendarState,
+  changeSelectedDate,
+  changePreviewMonth,
+  changePreviewYear,
+  changePreviewToToday,
+  incrementPreviewMonth,
+  decrementPreviewMonth,
+} from './calendar/calendar.actions';
+import {
+  resetColorState,
+  addColor,
+  removeColor,
+} from './colors/colors.actions';
+import { createNote, editNote, deleteNote } from './notes/notes.actions';
+
+export interface Note {
+  id: string;
+  title?: string;
+  content?: string;
+  color: string;
+  lastModified?: Date;
+  tags?: Array<string>;
+}
+
+let currentDate: Date = new Date();
+
+const initialState: Object = {
+  calendar: {
+    selectedDate: currentDate,
+    selectedMonth: currentDate.getMonth(),
+    selectedYear: currentDate.getFullYear(),
+  },
+  colors: {
+    pickedColors: allColors,
+    noColorSelected: true,
+  },
+  notes: {
+    notesByID: {},
+  },
+};
+
+export const globalReducer = createReducer(
+  initialState,
+  on(changeSelectedDate, (state, { date }) => {
+    return {
+      ...state,
+      calendar: {
+        ...state['calendar'],
+        selectedDate: date,
+      },
+    };
+  }),
+  on(changePreviewMonth, (state, { month }) => {
+    return {
+      ...state,
+      calendar: {
+        ...state['calendar'],
+        selectedMonth: month,
+      },
+    };
+  }),
+  on(changePreviewYear, (state, { year }) => {
+    return {
+      ...state,
+      calendar: {
+        ...state['calendar'],
+        selectedYear: year,
+      },
+    };
+  }),
+  on(incrementPreviewMonth, (state) => {
+    let newMonth: number = state['calendar']['selectedMonth'] + 1;
+    let newYear: number = state['calendar']['selectedYear'];
+    if (state['calendar']['selectedMonth'] == 11) {
+      newMonth = 0;
+      newYear = newYear + 1;
+    }
+    return {
+      ...state,
+      calendar: {
+        ...state['calendar'],
+        selectedMonth: newMonth,
+        selectedYear: newYear,
+      },
+    };
+  }),
+  on(decrementPreviewMonth, (state) => {
+    let newMonth: number = state['calendar']['selectedMonth'] - 1;
+    let newYear: number = state['calendar']['selectedYear'];
+    if (state['calendar']['selectedMonth'] == 0) {
+      newMonth = 11;
+      newYear = newYear - 1;
+    }
+    return {
+      ...state,
+      calendar: {
+        ...state['calendar'],
+        selectedMonth: newMonth,
+        selectedYear: newYear,
+      },
+    };
+  }),
+  on(changePreviewToToday, (state) => {
+    return {
+      ...state,
+      calendar: {
+        ...state['calendar'],
+        selectedMonth: state['calendar']['selectedDate'].getMonth(),
+        selectedYear: state['calendar']['selectedDate'].getFullYear(),
+      },
+    };
+  }),
+  on(resetCalendarState, (state) => {
+    let currentDate: Date = new Date();
+    return {
+      ...state,
+      calendar: {
+        ...state['calendar'],
+        selectedDate: currentDate,
+        selectedMonth: currentDate.getMonth(),
+        selectedYear: currentDate.getFullYear(),
+      },
+    };
+  }),
+  on(addColor, (state, { color }) => {
+    if (color.toUpperCase() in colorDefinitions) {
+      if (state['colors']['noColorSelected'] == true) {
+        return {
+          ...state,
+          colors: {
+            ...state['colors'],
+            noColorSelected: false,
+            pickedColors: [color.toUpperCase()],
+          },
+        };
+      } else {
+        let tempColors: Array<string> = state['colors']['pickedColors'].filter(
+          (pickedColor) => pickedColor != color.toUpperCase()
+        );
+        tempColors.push(color.toUpperCase());
+        return {
+          ...state,
+          colors: {
+            ...state['colors'],
+            pickedColors: tempColors,
+          },
+        };
+      }
+    } else {
+      return {
+        ...state,
+      };
+    }
+  }),
+  on(removeColor, (state, { color }) => {
+    if (
+      color.toUpperCase() in colorDefinitions &&
+      state['colors']['noColorSelected'] == false &&
+      state['colors']['pickedColors'].includes(color.toUpperCase())
+    ) {
+      let tempColors: Array<string> = state['colors']['pickedColors'].filter(
+        (pickedColor) => pickedColor != color.toUpperCase()
+      );
+      if (tempColors.length == 0) {
+        return {
+          ...state,
+          colors: {
+            ...state['colors'],
+            pickedColors: allColors,
+            noColorSelected: true,
+          },
+        };
+      } else {
+        return {
+          ...state,
+          colors: {
+            ...state['colors'],
+            pickedColors: tempColors,
+          },
+        };
+      }
+    } else {
+      return {
+        ...state,
+      };
+    }
+  }),
+  on(resetColorState, (state) => {
+    return {
+      ...state,
+      colors: {
+        ...state['colors'],
+        pickedColors: allColors,
+        noColorSelected: true,
+      },
+    };
+  }),
+  on(createNote, (state, { id, title, content, color, tags }) => {
+    let note: Note = {
+      id: id,
+      title: title ? title : '',
+      content: content ? content : '',
+      color: color,
+      lastModified: new Date(),
+      tags: tags ? tags : [],
+    };
+    if (note.title != '' || note.content != '') {
+      // Only create a note when there is a title or content
+      return {
+        ...state,
+        notes: {
+          ...state['notes'],
+          notesByID: {
+            ...state['notes']['notesByID'],
+            [id]: note,
+          },
+        },
+      };
+    } else {
+      return {
+        ...state,
+      };
+    }
+  }),
+  on(editNote, (state, { id, title, content, color, tags }) => {
+    let noEdits: boolean = true;
+    let editedParams: Object = {};
+    if (id in state['notes']['notesByID']) {
+      let prevNoteIter: Note = state['notes']['notesByID'][id];
+      if (title) editedParams['title'] = title;
+      if (content) editedParams['content'] = content;
+      if (color) editedParams['color'] = color;
+      if (tags) editedParams['tags'] = tags;
+
+      if (
+        (Object.keys(editedParams).length > 0 && prevNoteIter.title != title) ||
+        prevNoteIter.content != content ||
+        prevNoteIter.color != color ||
+        prevNoteIter.tags != tags
+      ) {
+        noEdits = false;
+      }
+    }
+    if (!noEdits && id in state['notes']['notesByID']) {
+      return {
+        ...state,
+        notes: {
+          ...state['notes'],
+          notesByID: {
+            ...state['notes']['notesByID'],
+            [id]: {
+              ...state['notes']['notesByID'][[id]],
+              lastModified: new Date(),
+              ...editedParams,
+            },
+          },
+        },
+      };
+    } else {
+      return {
+        ...state,
+      };
+    }
+  }),
+  on(deleteNote, (state, { id }) => {
+    let updatedNotes = {};
+
+    if (id in state['notes']['notesByID']) {
+      for (let key in state['notes']['notesByID']) {
+        if (id != key) {
+          updatedNotes[key] = state['notes']['notesByID'][key];
+        }
+      }
+    }
+
+    return {
+      ...state,
+      notes: {
+        ...state['notes'],
+        notesByID: updatedNotes,
+      },
+    };
+  })
+);

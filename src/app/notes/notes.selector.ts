@@ -1,7 +1,7 @@
 import { createSelector } from '@ngrx/store';
 
 export const getNotesByDate = createSelector(
-    state => state["notes"],
+    state => state["global"]["notes"],
     (state: any, props: {dates: Array<Date>}) => {
         let notes:Object = {};
         for(let date of props.dates){
@@ -13,7 +13,7 @@ export const getNotesByDate = createSelector(
 )
 
 export const getNotesByDesc = createSelector(
-    state => state["notes"],
+    state => state["global"]["notes"],
     (state:any) => {
         let dateArray = Object.keys(state["notesByDate"]).map((date) => state["notesByDate"][date]);
         let flatDateArray = [];
