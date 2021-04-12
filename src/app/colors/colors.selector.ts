@@ -1,9 +1,8 @@
 import { createSelector } from '@ngrx/store';
-import { ColorState } from './colors.reducer';
 
 export const getPickedColors = createSelector(
-    state => state['colors'],
-    (state:ColorState) => {
+    state => state["global"]["colors"],
+    (state) => {
         return { 
             pickedColors: state.pickedColors,
             noColorSelected: state.noColorSelected
