@@ -19,8 +19,6 @@ export class NotesViewEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.pipe(select(getSelectedNoteAndID)).subscribe(data => {
-      console.log("here");
-      console.log(data);
       if(data[0] != this.id){
         this.id = data[0];
         this.note = data[1];

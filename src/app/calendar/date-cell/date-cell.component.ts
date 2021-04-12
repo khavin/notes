@@ -17,7 +17,6 @@ export class DateCellComponent implements OnInit {
   }
 
   selectDate(): void {
-    console.log(this.date);
     this.store.dispatch(changeSelectedDate({date: new Date(this.date["year"],this.date["month"],this.date["date"]+1)}))
   }
 

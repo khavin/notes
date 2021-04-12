@@ -1,10 +1,10 @@
 import { createSelector } from '@ngrx/store';
 
 export const getNotesByDesc = createSelector(
-    state => state["global"]["notes"],
+    state => state["global"]["notes"]["notesByID"],
     (state:any) => {
         let flatDateArray = [];
-        flatDateArray = flatDateArray.concat(Object.keys(state["notesByID"]).map((id) => state["notesByID"][id]));  
+        flatDateArray = flatDateArray.concat(Object.keys(state).map((id) => state[id]));  
         return flatDateArray.sort((a,b) => b.lastModified.toISOString().localeCompare(a.lastModified.toISOString()));
     }
 );
