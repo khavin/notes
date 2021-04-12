@@ -1,0 +1,3 @@
+<div class="year-selector" (wheel)="scrollEvent($event)">
+    <span *ngFor="let year of yearPreviews" (click)="changeYear(year)" [class.selected-year]="year==selectedYear">{{ year }}</span>
+</div>

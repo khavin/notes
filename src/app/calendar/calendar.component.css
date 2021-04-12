@@ -1,0 +1,18 @@
+.calendar{
+    width: 15%;    
+}
+.calendar-header{
+    display: grid;
+    grid-template-rows: 1.5rem;
+    grid-template-columns: 50% 50%;
+}
+.calendar-header-navbar{
+    text-align: right;
+}
+.calendar-day-names-row{
+    font-size: 0.8rem;
+    text-align: center;
+    display: grid;
+    grid-template-rows: 1.5rem;
+    grid-template-columns: repeat(7,1fr);
+}

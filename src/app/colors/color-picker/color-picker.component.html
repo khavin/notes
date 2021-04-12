@@ -1,0 +1,7 @@
+<div *ngFor="let color of availableColors">
+    <span class="dot" [ngStyle]="{'backgroundColor': colorPalette[color] }" (click)="colorSelected(color)">
+        <span *ngIf="!noColorSelected && pickedColors.includes(color)" class="check-mark">
+            &#10003;
+        </span>
+    </span>
+</div>

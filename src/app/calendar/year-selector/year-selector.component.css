@@ -1,0 +1,8 @@
+.year-selector{
+    display: grid;
+    grid-template-rows: repeat(5,2.1rem);
+    text-align: center;
+}
+.selected-year{
+    color: blueviolet;
+}

@@ -1,0 +1,37 @@
+<div class="calendar">
+    <div class="calendar-header">
+        <div class="calendar-header-month-year">
+            <span (click)="openMonthSelector()">{{ month | async }}</span>,
+            <span (click)="openYearSelector()">{{ year | async }}</span>
+        </div>
+        <div class="calendar-header-navbar">
+            <span (click)='previousMonth()'>
+                &lt;
+            </span>
+            <span (click)="changePreviewToToday()">
+                Today
+            </span>
+            <span (click)='nextMonth()'>
+                &gt;
+            </span>
+        </div>
+    </div>
+    <div *ngIf="showCalendar">
+        <div class="calendar-day-names-row">
+            <span>SUN</span>
+            <span>MON</span>
+            <span>TUE</span>
+            <span>WED</span>
+            <span>THU</span>
+            <span>FRI</span>
+            <span>SAT</span>
+        </div>
+        <app-date-rows></app-date-rows>
+    </div>
+    <div *ngIf="showMonthSelector">
+        <app-month-selector (monthChanged)="closeMonthSelector()"></app-month-selector>
+    </div>
+    <div *ngIf="showYearSelector">
+        <app-year-selector (yearChanged)="closeYearSelector()"></app-year-selector>
+    </div>
+</div>
