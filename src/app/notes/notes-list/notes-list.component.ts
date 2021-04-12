@@ -18,21 +18,16 @@ export class NotesListComponent implements OnInit {
   ngOnInit(): void {
     this.store.pipe(select(getNotesForSelectedDate)).subscribe((data) => {
       this.notes = data;
-      console.log(data);
       if(this.notes.length > 0){
         for(let note of this.notes){
           if(this.selectedNoteID != note.id){
-            console.log("Dispatching selected note");
-            
-            this.store.dispatch(selectNote({id: note.id}));
-            this.selectedNoteID = note.id;
+            this.selectNote(note.id);
           }
           break;
         }
       }else{
         if(this.selectedNoteID != null){
-          this.selectedNoteID = null;
-          this.store.dispatch(selectNote({id: null}));
+          this.selectNote(null);
         }
       }
       
@@ -40,12 +35,9 @@ export class NotesListComponent implements OnInit {
   }
 
   selectNote(id:any): void{
-    console.log(id);
-    console.log(this.selectedNoteID);
     if( id != this.selectedNoteID){
-      console.log("Dispatching selected note1");
-      this.store.dispatch(selectNote({ id: id }));
       this.selectedNoteID = id;
+      this.store.dispatch(selectNote({ id: id }));      
     }
     
   }
