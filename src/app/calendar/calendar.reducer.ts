@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { changeSelectedDate, changePreviewMonth, changePreviewYear, changePreviewToToday, incrementPreviewMonth, decrementPreviewMonth } from './calendar.actions';
+import { resetCalendarState, changeSelectedDate, changePreviewMonth, changePreviewYear, changePreviewToToday, incrementPreviewMonth, decrementPreviewMonth } from './calendar.actions';
 
 export interface CalendarState {
   selectedDate: Date;
@@ -68,5 +68,14 @@ export const calendarReducer = createReducer(
       selectedMonth: state.selectedDate.getMonth(),
       selectedYear: state.selectedDate.getFullYear()
     }
+  }),
+  on(resetCalendarState, (state) => {
+    let currentDate:Date = new Date();
+    return {
+      ...state,
+      selectedDate: currentDate,
+      selectedMonth: currentDate.getMonth(),
+      selectedYear: currentDate.getFullYear(),
+    };
   })
 );
