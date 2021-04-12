@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Store,select } from '@ngrx/store';
 import { createNote, editNote, deleteNote } from '../notes.actions';
+import { resetCalendarState } from '../../calendar/calendar.actions';
+import { resetColorState } from '../../colors/colors.actions';
 
 @Component({
   selector: 'app-notes-view-edit',
@@ -15,11 +17,13 @@ export class NotesViewEditComponent implements OnInit {
     this.store.dispatch(createNote({id: "test",color: "BLUE"}));
     this.store.dispatch(createNote({id: "test",title: "first note",content: "hi how are you",color: "BLUE"}));
     this.store.dispatch(createNote({id: "test1",title: "second note",content: "hello",color: "Yellow", tags: ["Formal"]}));
-    this.store.dispatch(editNote({id: "test",title: "first note",content: "hi how are you",color: "BLUE",createdAt: new Date(), tags: []}));
-    this.store.dispatch(editNote({id: "test1",title: "second note",content: "hello",color: "Yellow",createdAt: new Date(), tags: ["Formal","Formal 1"]}));
-    this.store.dispatch(editNote({id: "test1",createdAt: new Date(), tags: ["Formal","Formal 1","Formal 2"]}));
-    this.store.dispatch(editNote({id: "test1",createdAt: new Date(), color: "PURPLE"}));
-    this.store.dispatch(deleteNote({id: "test",createdAt: new Date()}));
+    this.store.dispatch(editNote({id: "test",title: "first note",content: "hi how are you",color: "BLUE", tags: []}));
+    this.store.dispatch(editNote({id: "test1",title: "second note",content: "hello",color: "Yellow", tags: ["Formal","Formal 1"]}));
+    this.store.dispatch(editNote({id: "test1", tags: ["Formal","Formal 1","Formal 2"]}));
+    this.store.dispatch(editNote({id: "test1", color: "PURPLE"}));
+    this.store.dispatch(deleteNote({id: "test"}));
+    this.store.dispatch(resetCalendarState());
+    this.store.dispatch(resetColorState());
   }
 
 }

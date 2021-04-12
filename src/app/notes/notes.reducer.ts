@@ -6,12 +6,12 @@ export interface Note {
   title?: string;
   content?: string;
   color: string;
-  createdAt: Date;
-  editedAt?: Date;
+  lastModified?: Date;
   tags?: Array<string>;
 }
 
 const initialState: Object = {
+  notes: {},
   notesByDate: {
     '2021-03-27': {
       bday: {
@@ -19,7 +19,7 @@ const initialState: Object = {
         title: 'her bday',
         content: '24th bday',
         color: 'YELLOW',
-        createdAt: new Date(2021, 3, 27),
+        lastModified: new Date(2021, 3, 27),
         tags: ['Personal'],
       },
     },
@@ -34,33 +34,17 @@ export const notesReducer = createReducer(
       title: title ? title : '',
       content: content ? content : '',
       color: color,
-      createdAt: new Date(),
+      lastModified: new Date(),
       tags: tags ? tags : [],
     };
     if (note.title != '' || note.content != '') {
       // Only create a note when there is a title or content
-      let parsedDate: string = note.createdAt.toISOString().split('T')[0];
-      if (parsedDate in state['notesByDate']) {
-        return {
+      return {
           ...state,
-          notesByDate: {
-            ...state['notesByDate'],
-            [parsedDate]: {
-              ...state['notesByDate'][[parsedDate]],
-              [id]: note,
-            },
-          },
-        };
-      } else {
-        return {
-          ...state,
-          notesByDate: {
-            ...state['notesByDate'],
-            [parsedDate]: {
-              [id]: note,
-            },
-          },
-        };
+          notes: {
+              ...state["notes"],
+              [id]: note
+          }
       }
     } else {
       return {
@@ -68,13 +52,12 @@ export const notesReducer = createReducer(
       };
     }
   }),
-  on(editNote, (state, { id, title, content, color, createdAt, tags }) => {
-    let parsedDate: string = createdAt.toISOString().split('T')[0];
+  on(editNote, (state, { id, title, content, color, tags }) => {
     let noEdits: boolean = true;
     let editedParams: Object = {};
-    if (id in state['notesByDate'][parsedDate]) {
-        
-      let prevNoteIter: Note = state['notesByDate'][parsedDate][id];
+    if (id in state['notes']) {
+
+      let prevNoteIter: Note = state['notes'][id];
       if(title) editedParams["title"] = title;
       if(content) editedParams["content"] = content;
       if(color) editedParams["color"] = color;
@@ -90,18 +73,15 @@ export const notesReducer = createReducer(
         noEdits = false;
       }
     }
-    if (!noEdits && id in state['notesByDate'][parsedDate]) {
+    if (!noEdits && id in state['notes']) {
       return {
         ...state,
-        notesByDate: {
-          ...state['notesByDate'],
-          [parsedDate]: {
-            ...state['notesByDate'][[parsedDate]],
-            [id]: {
-              ...state['notesByDate'][[parsedDate]][[id]],
-              editedAt: new Date(),
-            ...editedParams
-            },
+        notes: {
+          ...state['notes'],
+          [id]: {
+            ...state['notes'][[id]],
+            lastModified: new Date(),
+            ...editedParams,
           },
         },
       };
@@ -111,29 +91,20 @@ export const notesReducer = createReducer(
       };
     }
   }),
-  on(deleteNote, (state, { id, createdAt }) => {
-    let updatedNotesByDate = {};
-    let parsedDate: string = createdAt.toISOString().split('T')[0];
-    for (let date in state['notesByDate']) {
-      if (date != parsedDate) {
-        updatedNotesByDate[date] = state['notesByDate'][date];
-      } else {
-        if (id in state['notesByDate'][date]) {
-          let updatedNotes = {};
-          for (let key in state['notesByDate'][date]) {
-            if (id != key) {
-              updatedNotes[key] = state['notesByDate'][date][key];
-            }
-          }
-          if (Object.keys(updatedNotes).length > 0) {
-            updatedNotesByDate[date] = updatedNotes;
-          }
+  on(deleteNote, (state, { id }) => {
+    let updatedNotes = {};
+
+    if (id in state['notes']) {
+      for (let key in state['notes']) {
+        if (id != key) {
+          updatedNotes[key] = state['notes'][key];
         }
       }
     }
+
     return {
       ...state,
-      notesByDate: updatedNotesByDate,
+      notes: updatedNotes,
     };
   })
 );

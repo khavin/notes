@@ -7,3 +7,4 @@ export const changePreviewYear = createAction("[Calendar] Year Preview Changed",
 export const changePreviewToToday = createAction("[Calendar] Date Preview Changed");
 export const incrementPreviewMonth = createAction("[Calendar] Increment Month");
 export const decrementPreviewMonth = createAction("[Calendar] Decrement Month");
+export const resetCalendarState = createAction("[Calendar] Calendar State Reset");
