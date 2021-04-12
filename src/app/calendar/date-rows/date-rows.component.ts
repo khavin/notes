@@ -12,7 +12,7 @@ export class DateRowsComponent implements OnInit {
   currentDate:Date = new Date();
   month:number;
   year:number;
-  dateList:Array<number>;
+  dateList:Array<Object>;
 
   constructor(private store:Store) { }
 
@@ -36,23 +36,25 @@ export class DateRowsComponent implements OnInit {
     let lastDatePreviousMonth:Date = new Date(this.year,this.month,0);
     // Get first date day
     let firstDateDay:number  = firstDate.getDay();
+    // Get next month first date
+    let nextMonthDate:Date = new Date(this.year, (this.month+1)%12, 1);
 
     // Calculate previous month dates to show
-    let previousMonthDates:Array<number> = [];
+    let previousMonthDates:Array<Object> = [];
     for(let i = 0;i<firstDateDay;i++){
-      previousMonthDates.unshift(lastDatePreviousMonth.getDate()-i);
+      previousMonthDates.unshift({"date": lastDatePreviousMonth.getDate()-i,"month": lastDatePreviousMonth.getMonth(),"year": lastDatePreviousMonth.getFullYear()});
     }
 
     // Get the current month dates to show
-    let currentMonthDates:Array<number> = [];
+    let currentMonthDates:Array<Object> = [];
     for(let i=1;i<=lastDate.getDate();i++){
-      currentMonthDates.push(i);
+      currentMonthDates.push({"date": i,"month": firstDate.getMonth(),"year": firstDate.getFullYear()});
     }
 
     // Get next month dates to show
-    let nextMonthDates:Array<number> = [];
+    let nextMonthDates:Array<Object> = [];
     for(let i=1;i<=(42-(previousMonthDates.length+currentMonthDates.length));i++){
-      nextMonthDates.push(i);
+      nextMonthDates.push({"date": i,"month": nextMonthDate.getMonth(),"year": nextMonthDate.getFullYear()});
     }
 
     // Combine all dates

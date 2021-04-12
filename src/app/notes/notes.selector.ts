@@ -1,25 +1,32 @@
 import { createSelector } from '@ngrx/store';
 
-export const getNotesByDate = createSelector(
-    state => state["global"]["notes"],
-    (state: any, props: {dates: Array<Date>}) => {
-        let notes:Object = {};
-        for(let date of props.dates){
-            let parsedDate:string = date.toISOString().split("T")[0];
-            notes[date.toISOString()] = state["notesByDate"][parsedDate] ? state["notesByDate"][parsedDate] : {};
-        }
-        return notes;
-    }
-)
-
 export const getNotesByDesc = createSelector(
     state => state["global"]["notes"],
     (state:any) => {
-        let dateArray = Object.keys(state["notesByDate"]).map((date) => state["notesByDate"][date]);
         let flatDateArray = [];
-        for(let entry of dateArray){
-            flatDateArray = flatDateArray.concat(Object.keys(entry).map((id) => entry[id]));
+        flatDateArray = flatDateArray.concat(Object.keys(state["notesByID"]).map((id) => state["notesByID"][id]));  
+        return flatDateArray.sort((a,b) => b.lastModified.toISOString().localeCompare(a.lastModified.toISOString()));
+    }
+);
+
+export const getNotesForSelectedDate = createSelector(
+    state => state["global"]["calendar"],
+    getNotesByDesc,
+    (state,notes: any) => {
+        let notesArray: Array<any> = [];
+        for(let entry of notes){
+            if(state["selectedDate"] == entry["lastModified"].toISOString().split("T")[0]){
+                notesArray.push(entry);
+            }
         }
-        return flatDateArray.sort((a,b) => b.createdAt.toISOString().localeCompare(a.createdAt.toISOString()));
+        return notesArray;
+    }
+)
+
+export const getSelectedNoteAndID = createSelector(
+    state => state["global"]["notes"],
+    (state) => {
+        let id:string = state["selectedNoteID"];
+        return id ? [id, state["notesByID"][id]] : [null,{}];
     }
 )

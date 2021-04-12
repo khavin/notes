@@ -14,7 +14,7 @@ import {
   addColor,
   removeColor,
 } from './colors/colors.actions';
-import { createNote, editNote, deleteNote } from './notes/notes.actions';
+import { createNote, editNote, deleteNote, selectNote } from './notes/notes.actions';
 
 export interface Note {
   id: string;
@@ -29,7 +29,7 @@ let currentDate: Date = new Date();
 
 const initialState: Object = {
   calendar: {
-    selectedDate: currentDate,
+    selectedDate: currentDate.toISOString().split('T')[0],
     selectedMonth: currentDate.getMonth(),
     selectedYear: currentDate.getFullYear(),
   },
@@ -38,8 +38,29 @@ const initialState: Object = {
     noColorSelected: true,
   },
   notes: {
-    notesByID: {},
+    notesByID: {
+      'test 0': {
+        id: 'test 0',
+        title: 'Her bday',
+        content: 'Its her 24th bday',
+        color: 'BLUE',
+        lastModified: new Date(2021, 2, 28)
+      },
+      'test -1': {
+        id: 'test -1',
+        title: 'Her bday',
+        content: 'Its her 24th bday',
+        color: 'BLUE',
+        lastModified: new Date(2021, 2, 22)
+      },
+    },
+    selectedNoteID: null,
   },
+  tags: {
+    tagsList: [],
+    selectedTags: [],
+  },
+  searchStrings: [],
 };
 
 export const globalReducer = createReducer(
@@ -49,7 +70,7 @@ export const globalReducer = createReducer(
       ...state,
       calendar: {
         ...state['calendar'],
-        selectedDate: date,
+        selectedDate: date.toISOString().split("T")[0],
       },
     };
   }),
@@ -104,12 +125,14 @@ export const globalReducer = createReducer(
     };
   }),
   on(changePreviewToToday, (state) => {
+    let currentDate: Date = new Date();
     return {
       ...state,
       calendar: {
         ...state['calendar'],
-        selectedMonth: state['calendar']['selectedDate'].getMonth(),
-        selectedYear: state['calendar']['selectedDate'].getFullYear(),
+        selectedDate: currentDate.toISOString().split("T")[0],
+        selectedMonth: currentDate.getMonth(),
+        selectedYear: currentDate.getFullYear(),
       },
     };
   }),
@@ -119,7 +142,7 @@ export const globalReducer = createReducer(
       ...state,
       calendar: {
         ...state['calendar'],
-        selectedDate: currentDate,
+        selectedDate: currentDate.toISOString().split("T")[0],
         selectedMonth: currentDate.getMonth(),
         selectedYear: currentDate.getFullYear(),
       },
@@ -281,6 +304,15 @@ export const globalReducer = createReducer(
       notes: {
         ...state['notes'],
         notesByID: updatedNotes,
+      },
+    };
+  }),
+  on(selectNote, (state, { id }) => {
+    return {
+      ...state,
+      notes: {
+        ...state['notes'],
+        selectedNoteID: id,
       },
     };
   })
