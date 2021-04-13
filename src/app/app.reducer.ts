@@ -293,8 +293,7 @@ export const globalReducer = createReducer(
       if (
         state['calendar']['selectedDate'] !=
           lastModified.toISOString().split('T')[0] ||
-        state['calendar']['selectedMonth'] !=
-          lastModified.getMonth() ||
+        state['calendar']['selectedMonth'] != lastModified.getMonth() ||
         state['calendar']['selectedYear'] != lastModified.getFullYear()
       ) {
         calendarEdits = true;
@@ -320,8 +319,8 @@ export const globalReducer = createReducer(
           },
           calendar: {
             ...state['calendar'],
-            ...editedCalendar
-          }
+            ...editedCalendar,
+          },
         };
       } else {
         return {
@@ -346,23 +345,29 @@ export const globalReducer = createReducer(
     }
   }),
   on(deleteNote, (state, { id }) => {
-    let updatedNotes = {};
+    if (id) {
+      let updatedNotes = {};
 
-    if (id in state['notes']['notesByID']) {
-      for (let key in state['notes']['notesByID']) {
-        if (id != key) {
-          updatedNotes[key] = state['notes']['notesByID'][key];
+      if (id in state['notes']['notesByID']) {
+        for (let key in state['notes']['notesByID']) {
+          if (id != key) {
+            updatedNotes[key] = state['notes']['notesByID'][key];
+          }
         }
       }
-    }
 
-    return {
-      ...state,
-      notes: {
-        ...state['notes'],
-        notesByID: updatedNotes,
-      },
-    };
+      return {
+        ...state,
+        notes: {
+          ...state['notes'],
+          notesByID: updatedNotes,
+        },
+      };
+    } else {
+      return {
+        ...state,
+      };
+    }
   }),
   on(selectNote, (state, { id }) => {
     return {
