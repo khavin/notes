@@ -2,3 +2,11 @@
 <input type="text" style="color: blueviolet;" [formControl]="noteTitle">
 <br>
 <input type="text" style="color: blueviolet;" [formControl]="noteContent">
+<br>
+<div *ngFor="let color of availableColors">
+    <span class="dot" [ngStyle]="{'backgroundColor': colorPalette[color] }" (click)="colorSelected(color)">
+        <span *ngIf="pickedColors.includes(color)" class="check-mark">
+            &#10003;
+        </span>
+    </span>
+</div>
