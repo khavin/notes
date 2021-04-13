@@ -24,9 +24,9 @@ export const getNotesForSelectedDate = createSelector(
 )
 
 export const getSelectedNoteAndID = createSelector(
-    state => state["global"]["notes"],
-    (state) => {
-        let id:string = state["selectedNoteID"];
-        return id ? [id, state["notesByID"][id]] : [null,{}];
+    state => state["global"]["notes"]["selectedNoteID"],
+    state => state["global"]["notes"]["notesByID"],
+    (id, notes) => {
+        return id ? [id, notes[id]] : [null,{}];
     }
 )

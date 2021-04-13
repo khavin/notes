@@ -18,6 +18,7 @@ export class DateRowsComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.pipe(select(getPreviewMonthAndYear)).subscribe(monthAndYear => {
+      console.log("reren")
       this.month = monthAndYear[0];
       this.year = monthAndYear[1];
       this.generateDateList();
