@@ -39,18 +39,18 @@ export class NotesViewEditComponent implements OnInit {
 
     let titleObservable = this.noteTitle.valueChanges.pipe(debounceTime(this.saveInterval));
     let contentObservable = this.noteContent.valueChanges.pipe(debounceTime(this.saveInterval));
+    let prevNote:Note;
     combineLatest([titleObservable,contentObservable]).subscribe((data) =>{
-      console.log(this.note);
-      console.log(data);
       if(this.oldID && this.id == this.oldID){
-        console.log("inside");
-        if((data[0] != "" || data[1] != "") && (data[0] != this.note.title || data[1] != this.note.content)){
+        if((data[0] != "" || data[1] != "") && (data[0] != prevNote.title || data[1] != prevNote.content)){
           this.oldID = this.id;
+          prevNote.title = data[0];
+          prevNote.content = data[1];
           this.store.dispatch(editNote({id: this.id, title: data[0], content: data[1]}));
         }
       }else{
-        console.log("skipping")
         this.oldID = this.id;
+        prevNote = {...this.note};
       }
     })
 
