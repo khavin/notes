@@ -14,7 +14,12 @@ import {
   addColor,
   removeColor,
 } from './colors/colors.actions';
-import { createNote, editNote, deleteNote, selectNote } from './notes/notes.actions';
+import {
+  createNote,
+  editNote,
+  deleteNote,
+  selectNote,
+} from './notes/notes.actions';
 
 export interface Note {
   id: string;
@@ -44,14 +49,14 @@ const initialState: Object = {
         title: 'Her bday',
         content: 'Its her 24th bday',
         color: 'BLUE',
-        lastModified: new Date(2021, 2, 28)
+        lastModified: new Date(2021, 2, 28),
       },
       'test -1': {
         id: 'test -1',
         title: 'Her bday',
         content: 'Its her 24th bday',
         color: 'BLUE',
-        lastModified: new Date(2021, 2, 22)
+        lastModified: new Date(2021, 2, 22),
       },
     },
     selectedNoteID: null,
@@ -70,7 +75,7 @@ export const globalReducer = createReducer(
       ...state,
       calendar: {
         ...state['calendar'],
-        selectedDate: date.toISOString().split("T")[0],
+        selectedDate: date.toISOString().split('T')[0],
       },
     };
   }),
@@ -130,7 +135,7 @@ export const globalReducer = createReducer(
       ...state,
       calendar: {
         ...state['calendar'],
-        selectedDate: currentDate.toISOString().split("T")[0],
+        selectedDate: currentDate.toISOString().split('T')[0],
         selectedMonth: currentDate.getMonth(),
         selectedYear: currentDate.getFullYear(),
       },
@@ -142,7 +147,7 @@ export const globalReducer = createReducer(
       ...state,
       calendar: {
         ...state['calendar'],
-        selectedDate: currentDate.toISOString().split("T")[0],
+        selectedDate: currentDate.toISOString().split('T')[0],
         selectedMonth: currentDate.getMonth(),
         selectedYear: currentDate.getFullYear(),
       },
@@ -253,10 +258,10 @@ export const globalReducer = createReducer(
     let editedParams: Object = {};
     if (id in state['notes']['notesByID']) {
       let prevNoteIter: Note = state['notes']['notesByID'][id];
-      if (title) editedParams['title'] = title;
-      if (content) editedParams['content'] = content;
-      if (color) editedParams['color'] = color;
-      if (tags) editedParams['tags'] = tags;
+      if (title != null) editedParams['title'] = title;
+      if (content != null) editedParams['content'] = content;
+      if (color != null) editedParams['color'] = color;
+      if (tags != null) editedParams['tags'] = tags;
 
       if (
         (Object.keys(editedParams).length > 0 && prevNoteIter.title != title) ||
@@ -268,20 +273,58 @@ export const globalReducer = createReducer(
       }
     }
     if (!noEdits && id in state['notes']['notesByID']) {
-      return {
-        ...state,
-        notes: {
-          ...state['notes'],
-          notesByID: {
-            ...state['notes']['notesByID'],
-            [id]: {
-              ...state['notes']['notesByID'][[id]],
-              lastModified: new Date(),
-              ...editedParams,
+      let lastModified: Date = new Date();
+      let calendarEdits: boolean = false;
+      let editedCalendar: Object = {};
+      if (
+        state['calendar']['selectedDate'] !=
+          lastModified.toISOString().split('T')[0] ||
+        state['calendar']['selectedMonth'] !=
+          lastModified.getMonth() ||
+        state['calendar']['selectedYear'] != lastModified.getFullYear()
+      ) {
+        calendarEdits = true;
+        editedCalendar = {
+          selectedDate: lastModified.toISOString().split('T')[0],
+          selectedMonth: lastModified.getMonth(),
+          selectedYear: lastModified.getFullYear(),
+        };
+      }
+      if (calendarEdits) {
+        return {
+          ...state,
+          notes: {
+            ...state['notes'],
+            notesByID: {
+              ...state['notes']['notesByID'],
+              [id]: {
+                ...state['notes']['notesByID'][[id]],
+                lastModified: lastModified,
+                ...editedParams,
+              },
             },
           },
-        },
-      };
+          calendar: {
+            ...state['calendar'],
+            ...editedCalendar
+          }
+        };
+      } else {
+        return {
+          ...state,
+          notes: {
+            ...state['notes'],
+            notesByID: {
+              ...state['notes']['notesByID'],
+              [id]: {
+                ...state['notes']['notesByID'][[id]],
+                lastModified: lastModified,
+                ...editedParams,
+              },
+            },
+          },
+        };
+      }
     } else {
       return {
         ...state,
