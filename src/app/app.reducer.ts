@@ -91,6 +91,10 @@ export const globalReducer = createReducer(
         ...state['calendar'],
         selectedDate: date.toISOString().split('T')[0],
       },
+      notes: {
+        ...state['notes'],
+        selectedNoteID: null,
+      },
     };
   }),
   on(changePreviewMonth, (state, { month }) => {
@@ -177,6 +181,10 @@ export const globalReducer = createReducer(
             noColorSelected: false,
             pickedColors: [color.toUpperCase()],
           },
+          notes: {
+            ...state['notes'],
+            selectedNoteID: null,
+          },
         };
       } else {
         let tempColors: Array<string> = state['colors']['pickedColors'].filter(
@@ -188,6 +196,10 @@ export const globalReducer = createReducer(
           colors: {
             ...state['colors'],
             pickedColors: tempColors,
+          },
+          notes: {
+            ...state['notes'],
+            selectedNoteID: null,
           },
         };
       }
@@ -214,6 +226,10 @@ export const globalReducer = createReducer(
             pickedColors: allColors,
             noColorSelected: true,
           },
+          notes: {
+            ...state['notes'],
+            selectedNoteID: null,
+          },
         };
       } else {
         return {
@@ -221,6 +237,10 @@ export const globalReducer = createReducer(
           colors: {
             ...state['colors'],
             pickedColors: tempColors,
+          },
+          notes: {
+            ...state['notes'],
+            selectedNoteID: null,
           },
         };
       }
@@ -259,6 +279,7 @@ export const globalReducer = createReducer(
             ...state['notes']['notesByID'],
             [id]: note,
           },
+          selectedNoteID: id
         },
       };
     } else {
@@ -316,6 +337,7 @@ export const globalReducer = createReducer(
                 ...editedParams,
               },
             },
+            selectedNoteID: id
           },
           calendar: {
             ...state['calendar'],
@@ -335,6 +357,7 @@ export const globalReducer = createReducer(
                 ...editedParams,
               },
             },
+            selectedNoteID: id
           },
         };
       }
@@ -347,7 +370,7 @@ export const globalReducer = createReducer(
   on(deleteNote, (state, { id }) => {
     if (id) {
       let updatedNotes = {};
-
+      let selectedNoteID = id == state['notes']['selectedNoteID'] ? null : state['notes']['selectedNoteID'];
       if (id in state['notes']['notesByID']) {
         for (let key in state['notes']['notesByID']) {
           if (id != key) {
@@ -361,6 +384,7 @@ export const globalReducer = createReducer(
         notes: {
           ...state['notes'],
           notesByID: updatedNotes,
+          selectedNoteID: selectedNoteID
         },
       };
     } else {
