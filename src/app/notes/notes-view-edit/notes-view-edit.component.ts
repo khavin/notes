@@ -45,7 +45,7 @@ export class NotesViewEditComponent implements OnInit {
         // Save previous note
         if (this.id) {
           if (this.title == '' && this.content == '') {
-            this.store.dispatch(deleteNote({ id: this.id }));
+            this.deleteNote();
           } else {
             this.store.dispatch(
               editNote({
@@ -115,18 +115,6 @@ export class NotesViewEditComponent implements OnInit {
         prevNote = { ...this.note };
       }
     });
-
-    //this.store.dispatch(createNote({id: "test",color: "BLUE"}));
-    //this.store.dispatch(createNote({id: "test",title: "first note",content: "hi how are you",color: "BLUE"}));
-    //this.store.dispatch(createNote({id: "test1",title: "second note",content: "hello",color: "Yellow", tags: ["Formal"]}));
-    // this.store.dispatch(editNote({id: "test",title: "first note",content: "hi how are you",color: "BLUE", tags: []}));
-    // this.store.dispatch(editNote({id: "test1",title: "second note",content: "hello",color: "Yellow", tags: ["Formal","Formal 1"]}));
-    // this.store.dispatch(editNote({id: "test1", tags: ["Formal","Formal 1","Formal 2"]}));
-    // this.store.dispatch(editNote({id: "test1", color: "PURPLE"}));
-    // this.store.dispatch(changeSelectedDate({date: new Date(2021, 2, 27)}))
-    // this.store.dispatch(deleteNote({id: "test"}));
-    // this.store.dispatch(resetCalendarState());
-    // this.store.dispatch(resetColorState());
   }
 
   colorSelected(color: string): void {
@@ -135,5 +123,11 @@ export class NotesViewEditComponent implements OnInit {
     } else {
       this.pickedColor = color;
     }
+  }
+
+  deleteNote(): void{
+    let id = this.id;
+    this.store.dispatch(deleteNote({ id: id }));
+    
   }
 }
