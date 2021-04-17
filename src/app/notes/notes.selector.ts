@@ -11,15 +11,16 @@ export const getNotesByDesc = createSelector(
 
 export const getNotesForSelectedDate = createSelector(
     state => state["global"]["calendar"],
+    state => state["global"]["notes"]["selectedNoteID"],
     getNotesByDesc,
-    (state,notes: any) => {
+    (calendarState,selectedNoteID,notes: any) => {
         let notesArray: Array<any> = [];
         for(let entry of notes){
-            if(state["selectedDate"] == entry["lastModified"].toISOString().split("T")[0]){
+            if(calendarState["selectedDate"] == entry["lastModified"].toISOString().split("T")[0]){
                 notesArray.push(entry);
             }
         }
-        return notesArray;
+        return [selectedNoteID,notesArray];
     }
 )
 
