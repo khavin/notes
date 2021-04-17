@@ -261,48 +261,83 @@ export const globalReducer = createReducer(
     };
   }),
   on(createNote, (state, { id, title, content, color, tags }) => {
+
+    let lastModified = new Date();
+    let editedCalendar:Object = {};
     let note: Note = {
       id: id,
       title: title ? title : '',
       content: content ? content : '',
-      color: color,
-      lastModified: new Date(),
+      color: color ? color : null,
+      lastModified: lastModified,
       tags: tags ? tags : [],
     };
-    if (note.title != '' || note.content != '') {
-      // Only create a note when there is a title or content
-      return {
-        ...state,
-        notes: {
-          ...state['notes'],
-          notesByID: {
-            ...state['notes']['notesByID'],
-            [id]: note,
-          },
-          selectedNoteID: id
+    editedCalendar = {
+      selectedDate: lastModified.toISOString().split('T')[0],
+      selectedMonth: lastModified.getMonth(),
+      selectedYear: lastModified.getFullYear(),
+    };
+    // Only create a note when there is a title or content
+    return {
+      ...state,
+      notes: {
+        ...state['notes'],
+        notesByID: {
+          ...state['notes']['notesByID'],
+          [id]: note,
         },
-      };
-    } else {
-      return {
-        ...state,
-      };
-    }
+        selectedNoteID: id,
+      },
+      calendar: {
+        ...state['calendar'],
+        ...editedCalendar,
+      },
+    };
   }),
   on(editNote, (state, { id, title, content, color, tags }) => {
     let noEdits: boolean = true;
     let editedParams: Object = {};
     if (id in state['notes']['notesByID']) {
+
       let prevNoteIter: Note = state['notes']['notesByID'][id];
-      if (title != null) editedParams['title'] = title;
-      if (content != null) editedParams['content'] = content;
-      if (color != null) editedParams['color'] = color;
-      if (tags != null) editedParams['tags'] = tags;
+
+      // Check if note is changed
+      let titleChanged = false;
+      let contentChanged = false;
+      let colorChanged = false;
+      let tagsChanged = false;
+
+      if (title && title != prevNoteIter.title) {
+        titleChanged = true;
+        editedParams['title'] = title;
+      }
+
+      if (content && content != prevNoteIter.content) {
+        contentChanged = true;
+        editedParams['content'] = content;
+      }
+
+      if (color && color != prevNoteIter.color) {
+        colorChanged = true;
+        editedParams['color'] = color;
+      }
+
+      let newTags = [];
+      let removedTags = [];
+
+      if (prevNoteIter.tags && tags) {
+        newTags = tags.filter((tag) => !prevNoteIter.tags.includes(tag));
+        removedTags = prevNoteIter.tags.filter((tag) => !tags.includes(tag));
+      }
+
+      if (tags && removedTags.length + newTags.length > 0) {
+        tagsChanged = true;
+        editedParams['tags'] =  tags;
+      }
 
       if (
-        (Object.keys(editedParams).length > 0 && prevNoteIter.title != title) ||
-        prevNoteIter.content != content ||
-        prevNoteIter.color != color ||
-        prevNoteIter.tags != tags
+        Object.keys(editedParams).length > 0 &&
+        (titleChanged || contentChanged || colorChanged || tagsChanged)
       ) {
         noEdits = false;
       }
@@ -337,7 +372,6 @@ export const globalReducer = createReducer(
                 ...editedParams,
               },
             },
-            selectedNoteID: id
           },
           calendar: {
             ...state['calendar'],
@@ -357,7 +391,6 @@ export const globalReducer = createReducer(
                 ...editedParams,
               },
             },
-            selectedNoteID: id
           },
         };
       }
@@ -370,7 +403,10 @@ export const globalReducer = createReducer(
   on(deleteNote, (state, { id }) => {
     if (id) {
       let updatedNotes = {};
-      let selectedNoteID = id == state['notes']['selectedNoteID'] ? null : state['notes']['selectedNoteID'];
+      let selectedNoteID =
+        id == state['notes']['selectedNoteID']
+          ? null
+          : state['notes']['selectedNoteID'];
       if (id in state['notes']['notesByID']) {
         for (let key in state['notes']['notesByID']) {
           if (id != key) {
@@ -384,7 +420,7 @@ export const globalReducer = createReducer(
         notes: {
           ...state['notes'],
           notesByID: updatedNotes,
-          selectedNoteID: selectedNoteID
+          selectedNoteID: selectedNoteID,
         },
       };
     } else {
