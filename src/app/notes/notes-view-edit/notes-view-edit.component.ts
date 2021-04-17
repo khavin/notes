@@ -31,6 +31,7 @@ export class NotesViewEditComponent implements OnInit {
   selectedColor: any;
   colorPalette: colors = colorDefinitions;
   pickedColor: string = null;
+  tags: Array<string> = [];
   saveInterval: number = 500;
   saveSubscription: Subscription = null;
   constructor(private store: Store) {}
@@ -39,6 +40,7 @@ export class NotesViewEditComponent implements OnInit {
     this.store.pipe(select(getSelectedNoteAndID)).subscribe((data) => {
       if (data[0] != this.id) {
 
+        // Remove previous form control Subscription
         if (this.saveSubscription){
           this.saveSubscription.unsubscribe();
         }
@@ -53,6 +55,7 @@ export class NotesViewEditComponent implements OnInit {
                 title: this.title,
                 content: this.content,
                 color: this.pickedColor,
+                tags: this.tags
               })
             );
           }
@@ -101,7 +104,6 @@ export class NotesViewEditComponent implements OnInit {
               this.content != prevNote.content ||
               this.pickedColor != prevNote.color)
           ) {
-            console.log(this.id);
             prevNote.title = this.title;
             prevNote.content = this.content;
             prevNote.color = this.pickedColor;
@@ -130,5 +132,9 @@ export class NotesViewEditComponent implements OnInit {
   deleteNote(): void {
     let id = this.id;
     this.store.dispatch(deleteNote({ id: id }));
+  }
+
+  createNote(): void {
+    this.store.dispatch(createNote({id: uuidv1()}))
   }
 }
