@@ -3,10 +3,6 @@ import { Store, select } from '@ngrx/store';
 import { createNote, editNote, deleteNote } from '../notes.actions';
 import { getSelectedNoteAndID } from '../notes.selector';
 import {
-  changeSelectedDate,
-  resetCalendarState,
-} from '../../calendar/calendar.actions';
-import {
   colors,
   colorDefinitions,
   allColors,
@@ -16,7 +12,7 @@ import { Note } from 'src/app/app.reducer';
 import { FormControl } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 import { v1 as uuidv1 } from 'uuid';
-import { Observable, combineLatest, Subject, interval } from 'rxjs';
+import { Observable, combineLatest, Subject, interval, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-notes-view-edit',
@@ -27,21 +23,25 @@ export class NotesViewEditComponent implements OnInit {
   id: string;
   title: string = null;
   content: string = null;
-  oldID: string = null;
   note: Note;
   mode: string = 'edit' || 'create';
-  noteTitle = new FormControl('');
-  noteContent = new FormControl('');
+  noteTitle: any;
+  noteContent: any;
   availableColors: Array<string> = allColors;
-  selectedColor = new FormControl(allColors);
+  selectedColor: any;
   colorPalette: colors = colorDefinitions;
   pickedColor: string = null;
   saveInterval: number = 500;
+  saveSubscription: Subscription = null;
   constructor(private store: Store) {}
 
   ngOnInit(): void {
     this.store.pipe(select(getSelectedNoteAndID)).subscribe((data) => {
       if (data[0] != this.id) {
+
+        if (this.saveSubscription){
+          this.saveSubscription.unsubscribe();
+        }
         // Save previous note
         if (this.id) {
           if (this.title == '' && this.content == '') {
@@ -62,6 +62,26 @@ export class NotesViewEditComponent implements OnInit {
         this.id = data[0];
         this.note = data[1];
 
+        // Create new form controls
+        this.noteTitle = new FormControl('');
+        this.noteContent = new FormControl('');
+        this.selectedColor = new FormControl(allColors);
+
+        // Create new form observables
+        let titleObservable = this.noteTitle.valueChanges.pipe(
+          debounceTime(this.saveInterval)
+        );
+        let contentObservable = this.noteContent.valueChanges.pipe(
+          debounceTime(this.saveInterval)
+        );
+
+        titleObservable.subscribe((data) => {
+          this.title = data;
+        });
+        contentObservable.subscribe((data) => {
+          this.content = data;
+        });
+
         // Set note info
         this.pickedColor = this.note.color;
         this.noteTitle.setValue(this.note.title ? this.note.title : '');
@@ -69,50 +89,32 @@ export class NotesViewEditComponent implements OnInit {
 
         this.title = this.note.title;
         this.content = this.note.content;
-      }
-    });
 
-    let titleObservable = this.noteTitle.valueChanges.pipe(
-      debounceTime(this.saveInterval)
-    );
-    let contentObservable = this.noteContent.valueChanges.pipe(
-      debounceTime(this.saveInterval)
-    );
+        let prevNote: Note = {...data[1]};
 
-    titleObservable.subscribe((data) => {
-      this.title = data;
-    });
-    contentObservable.subscribe((data) => {
-      this.content = data;
-    });
-
-    let prevNote: Note;
-    interval(500).subscribe(() => {
-      if (this.oldID && this.id == this.oldID) {
-        if (
-          (this.title != '' ||
-            this.content != '' ||
-            this.pickedColor != null) &&
-          (this.title != prevNote.title ||
-            this.content != prevNote.content ||
-            this.pickedColor != prevNote.color)
-        ) {
-          this.oldID = this.id;
-          prevNote.title = this.title;
-          prevNote.content = this.content;
-          prevNote.color = this.pickedColor;
-          this.store.dispatch(
-            editNote({
-              id: this.id,
-              title: this.title,
-              content: this.content,
-              color: this.pickedColor,
-            })
-          );
-        }
-      } else {
-        this.oldID = this.id;
-        prevNote = { ...this.note };
+        this.saveSubscription = interval(500).subscribe(() => {
+          if (
+            (this.title != '' ||
+              this.content != '' ||
+              this.pickedColor != null) &&
+            (this.title != prevNote.title ||
+              this.content != prevNote.content ||
+              this.pickedColor != prevNote.color)
+          ) {
+            console.log(this.id);
+            prevNote.title = this.title;
+            prevNote.content = this.content;
+            prevNote.color = this.pickedColor;
+            this.store.dispatch(
+              editNote({
+                id: this.id,
+                title: this.title,
+                content: this.content,
+                color: this.pickedColor,
+              })
+            );
+          }
+        });
       }
     });
   }
@@ -125,9 +127,8 @@ export class NotesViewEditComponent implements OnInit {
     }
   }
 
-  deleteNote(): void{
+  deleteNote(): void {
     let id = this.id;
     this.store.dispatch(deleteNote({ id: id }));
-    
   }
 }
