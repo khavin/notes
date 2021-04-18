@@ -1,5 +1,6 @@
 import { createSelector } from '@ngrx/store';
 import { DatePipe } from '@angular/common';
+import { Note } from '../app.reducer';
 
 let datePipe = new DatePipe('en-US');
 
@@ -21,8 +22,37 @@ export const filterNotesBySelectedColor = createSelector(
     }
 )
 
-export const getNotesByDesc = createSelector(
+export const filterNotesBySearchString = createSelector(
+    state => state["global"]["searchString"],
     filterNotesBySelectedColor,
+    (searchString, notes) => {
+        if(searchString == null || searchString.length == 0){
+            return notes
+        }else{
+            let filteredNotes:Object = {};
+            for(let note in notes){
+                if(notes[note]["title"] != null && notes[note]["title"].toLowerCase().includes(searchString)){
+                    filteredNotes[note] = notes[note];
+                    continue;
+                }
+                if(notes[note]["content"] != null && notes[note]["content"].toLowerCase().includes(searchString)){
+                    filteredNotes[note] = notes[note];
+                    continue;
+                }
+                if(notes[note]["tags"] != null){
+                    let matchedTags:Array<string> = notes[note]["tags"].filter( tag => tag.toLowerCase().includes(searchString));
+                    if(matchedTags.length > 0){
+                        filteredNotes[note] = notes[note];
+                        continue;
+                    }
+                }
+            }
+            return filteredNotes;
+        }
+    }
+)
+export const getNotesByDesc = createSelector(
+    filterNotesBySearchString,
     (state:any) => {
         let flatDateArray = [];
         flatDateArray = flatDateArray.concat(Object.keys(state).map((id) => state[id]));  

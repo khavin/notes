@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { CalendarModule } from './calendar/calendar.module';
 import { ColorsModule } from './colors/colors.module';
 import { NotesModule } from './notes/notes.module';
+import { SearchModule } from './search/search.module';
 import { globalReducer } from './app.reducer';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule} from '@ngrx/store-devtools';
@@ -21,6 +22,7 @@ import { StoreDevtoolsModule} from '@ngrx/store-devtools';
     CalendarModule,
     ColorsModule,
     NotesModule,
+    SearchModule,
     StoreModule.forRoot({ global: globalReducer }),
     StoreDevtoolsModule.instrument({
       maxAge: 25 // Retains last 25 states
