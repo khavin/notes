@@ -14,6 +14,7 @@ import { debounceTime } from 'rxjs/operators';
 import { v1 as uuidv1 } from 'uuid';
 import { Observable, combineLatest, Subject, interval, Subscription } from 'rxjs';
 import { numberToShortMonthMappings } from 'src/app/calendar/calendar.constants';
+import { defaultThrottleConfig } from 'rxjs/internal/operators/throttle';
 
 @Component({
   selector: 'app-notes-view-edit',
@@ -59,7 +60,7 @@ export class NotesViewEditComponent implements OnInit {
             );
           }
         }
-        
+
         // Remove previous form control Subscription
         if (this.subscriptions.length > 0){
           for(let subscription of this.subscriptions){
@@ -162,6 +163,15 @@ export class NotesViewEditComponent implements OnInit {
         this.tags = [...this.tags, this.editingTag];
       }
       this.noteTags.setValue('');
+    }
+  }
+
+  removeTag(tag): void {
+    let tagIndex = this.tags.indexOf(tag);
+    if(tagIndex > -1){
+     let { [tagIndex]:removedTag, ...rest } = this.tags;
+     let updatedTags = Object.keys(rest).map(k => rest[k]);
+     this.tags = [...updatedTags];
     }
   }
 }
