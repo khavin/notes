@@ -296,6 +296,11 @@ export const globalReducer = createReducer(
         ...state['calendar'],
         ...editedCalendar,
       },
+      colors: {
+        ...state['colors'],
+        pickedColors: allColors,
+        noColorSelected: true,
+      },
     };
   }),
   on(editNote, (state, { id, title, content, color, tags }) => {
@@ -311,17 +316,17 @@ export const globalReducer = createReducer(
       let colorChanged = false;
       let tagsChanged = false;
 
-      if (title && title != prevNoteIter.title) {
+      if (title != null && title != prevNoteIter.title) {
         titleChanged = true;
         editedParams['title'] = title;
       }
 
-      if (content && content != prevNoteIter.content) {
+      if (content != null && content != prevNoteIter.content) {
         contentChanged = true;
         editedParams['content'] = content;
       }
 
-      if (color && color != prevNoteIter.color) {
+      if (color != null && color != prevNoteIter.color) {
         colorChanged = true;
         editedParams['color'] = color;
       }
@@ -334,7 +339,7 @@ export const globalReducer = createReducer(
         removedTags = prevNoteIter.tags.filter((tag) => !tags.includes(tag));
       }
 
-      if (tags && removedTags.length + newTags.length > 0) {
+      if (tags != null && removedTags.length + newTags.length > 0) {
         tagsChanged = true;
         editedParams['tags'] =  tags;
       }
