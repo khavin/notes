@@ -13,3 +13,5 @@
 
 <button (click)="createNote()">Create Note</button>
 <button (click)="deleteNote()">Delete Note</button>
+<br>
+<input type="text" style="color: blueviolet;" [formControl]="noteTags" (keydown)="addTag($event)">
