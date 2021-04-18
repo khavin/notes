@@ -21,6 +21,9 @@ import {
   deleteNote,
   selectNote,
 } from './notes/notes.actions';
+import {
+  search
+} from './search/search.actions';
 
 export interface Note {
   id: string;
@@ -109,11 +112,21 @@ const initialState: Object = {
     tagsList: [],
     selectedTags: [],
   },
-  searchStrings: [],
+  searchString: '',
 };
 
 export const globalReducer = createReducer(
   initialState,
+  on(search, (state, { searchString }) => {
+    return {
+      ...state,
+      searchString: searchString.toLowerCase(),
+      notes: {
+        ...state['notes'],
+        selectedNoteID: null,
+      },
+    }
+  }),
   on(changeSelectedDate, (state, { date }) => {
     return {
       ...state,
