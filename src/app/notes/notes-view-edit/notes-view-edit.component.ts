@@ -13,6 +13,7 @@ import { FormControl } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 import { v1 as uuidv1 } from 'uuid';
 import { Observable, combineLatest, Subject, interval, Subscription } from 'rxjs';
+import { numberToShortMonthMappings } from 'src/app/calendar/calendar.constants';
 
 @Component({
   selector: 'app-notes-view-edit',
@@ -27,6 +28,8 @@ export class NotesViewEditComponent implements OnInit {
   mode: string = 'edit' || 'create';
   noteTitle: any;
   noteContent: any;
+  noteTags: any;
+  editingTag: string;
   availableColors: Array<string> = allColors;
   selectedColor: any;
   colorPalette: colors = colorDefinitions;
@@ -69,6 +72,7 @@ export class NotesViewEditComponent implements OnInit {
         this.noteTitle = new FormControl('');
         this.noteContent = new FormControl('');
         this.selectedColor = new FormControl(allColors);
+        this.noteTags = new FormControl('');
 
         // Create new form observables
         let titleObservable = this.noteTitle.valueChanges.pipe(
@@ -85,8 +89,13 @@ export class NotesViewEditComponent implements OnInit {
           this.content = data;
         });
 
+        this.noteTags.valueChanges.subscribe((data) => {
+          this.editingTag = data;
+        })
+
         // Set note info
         this.pickedColor = this.note.color;
+        this.tags = this.note.tags;
         this.noteTitle.setValue(this.note.title ? this.note.title : '');
         this.noteContent.setValue(this.note.content ? this.note.content : '');
 
@@ -102,17 +111,20 @@ export class NotesViewEditComponent implements OnInit {
               this.pickedColor != null) &&
             (this.title != prevNote.title ||
               this.content != prevNote.content ||
-              this.pickedColor != prevNote.color)
+              this.pickedColor != prevNote.color ||
+              this.tags != prevNote.tags)
           ) {
             prevNote.title = this.title;
             prevNote.content = this.content;
             prevNote.color = this.pickedColor;
+            prevNote.tags = this.tags;
             this.store.dispatch(
               editNote({
                 id: this.id,
                 title: this.title,
                 content: this.content,
                 color: this.pickedColor,
+                tags: this.tags
               })
             );
           }
@@ -136,5 +148,14 @@ export class NotesViewEditComponent implements OnInit {
 
   createNote(): void {
     this.store.dispatch(createNote({id: uuidv1()}))
+  }
+
+  addTag(event): void {
+    if(event.key == "Enter"){
+      if(!this.tags.includes(this.editingTag)){
+        this.tags = [...this.tags, this.editingTag];
+      }
+      this.noteTags.setValue('');
+    }
   }
 }

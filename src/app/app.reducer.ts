@@ -49,6 +49,7 @@ const initialState: Object = {
         title: 'Her bday',
         content: 'Its her 24th bday',
         color: 'BLUE',
+        tags: [],
         lastModified: new Date(2021, 2, 28),
       },
       'test -1': {
@@ -56,6 +57,7 @@ const initialState: Object = {
         title: 'Her bday',
         content: 'Its her 24th bday',
         color: '',
+        tags: [],
         lastModified: new Date(2021, 2, 22),
       },
       'test 1': {
@@ -63,6 +65,7 @@ const initialState: Object = {
         title: 'First note',
         content: 'Its first',
         color: 'BLUE',
+        tags: [],
         lastModified: new Date(),
       },
       'test 2': {
@@ -70,6 +73,7 @@ const initialState: Object = {
         title: 'Second note',
         content: 'Its second',
         color: 'ORANGE',
+        tags: [],
         lastModified: new Date(),
       },
     },
