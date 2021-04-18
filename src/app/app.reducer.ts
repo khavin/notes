@@ -65,7 +65,7 @@ const initialState: Object = {
         title: 'First note',
         content: 'Its first',
         color: 'BLUE',
-        tags: [],
+        tags: ["Personal"],
         lastModified: new Date(),
       },
       'test 2': {
@@ -73,7 +73,7 @@ const initialState: Object = {
         title: 'Second note',
         content: 'Its second',
         color: 'ORANGE',
-        tags: [],
+        tags: ["Mclaren"],
         lastModified: new Date(),
       },
     },
