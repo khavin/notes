@@ -36,17 +36,13 @@ export class NotesViewEditComponent implements OnInit {
   pickedColor: string = null;
   tags: Array<string> = [];
   saveInterval: number = 500;
-  saveSubscription: Subscription = null;
+  subscriptions: Array<Subscription> = [];
   constructor(private store: Store) {}
 
   ngOnInit(): void {
     this.store.pipe(select(getSelectedNoteAndID)).subscribe((data) => {
       if (data[0] != this.id) {
 
-        // Remove previous form control Subscription
-        if (this.saveSubscription){
-          this.saveSubscription.unsubscribe();
-        }
         // Save previous note
         if (this.id) {
           if (this.title == '' && this.content == '') {
@@ -61,6 +57,13 @@ export class NotesViewEditComponent implements OnInit {
                 tags: this.tags
               })
             );
+          }
+        }
+        
+        // Remove previous form control Subscription
+        if (this.subscriptions.length > 0){
+          for(let subscription of this.subscriptions){
+            subscription.unsubscribe();
           }
         }
 
@@ -81,17 +84,18 @@ export class NotesViewEditComponent implements OnInit {
         let contentObservable = this.noteContent.valueChanges.pipe(
           debounceTime(this.saveInterval)
         );
+        let subscriptions:Array<Subscription> = [];
 
-        titleObservable.subscribe((data) => {
+        subscriptions.push(titleObservable.subscribe((data) => {
           this.title = data;
-        });
-        contentObservable.subscribe((data) => {
+        }));
+        subscriptions.push(contentObservable.subscribe((data) => {
           this.content = data;
-        });
+        }));
 
-        this.noteTags.valueChanges.subscribe((data) => {
+        subscriptions.push(this.noteTags.valueChanges.subscribe((data) => {
           this.editingTag = data;
-        })
+        }));
 
         // Set note info
         this.pickedColor = this.note.color;
@@ -104,7 +108,7 @@ export class NotesViewEditComponent implements OnInit {
 
         let prevNote: Note = {...data[1]};
 
-        this.saveSubscription = interval(500).subscribe(() => {
+        subscriptions.push(interval(500).subscribe(() => {
           if (
             (this.title != '' ||
               this.content != '' ||
@@ -128,7 +132,9 @@ export class NotesViewEditComponent implements OnInit {
               })
             );
           }
-        });
+        }));
+
+        this.subscriptions = [...subscriptions];
       }
     });
   }

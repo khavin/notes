@@ -27,25 +27,38 @@ export const getNotesByDesc = createSelector(
     }
 );
 
-export const getNotesForSelectedDate = createSelector(
-    state => state["global"]["calendar"],
-    state => state["global"]["notes"]["selectedNoteID"],
-    getNotesByDesc,
-    (calendarState,selectedNoteID,notes: any) => {
-        let notesArray: Array<any> = [];
-        for(let entry of notes){
-            if(calendarState["selectedDate"] == entry["lastModified"].toISOString().split("T")[0]){
-                notesArray.push(entry);
-            }
-        }
-        return [selectedNoteID,notesArray];
-    }
-)
-
 export const getSelectedNoteAndID = createSelector(
     state => state["global"]["notes"]["selectedNoteID"],
     state => state["global"]["notes"]["notesByID"],
     (id, notes) => {
         return id ? [id, notes[id]] : [null,{}];
+    }
+)
+
+export const getNotesForSelectedDate = createSelector(
+    state => state["global"]["calendar"],
+    getSelectedNoteAndID,
+    getNotesByDesc,
+    (calendarState,selectedNoteAndID,notes: any) => {
+        let notesArray: Array<any> = [];
+        if(selectedNoteAndID[0] != null){
+            let selectedNotePresent = false;
+            for(let entry of notes){
+                if(selectedNoteAndID[0] == entry["id"]){
+                    selectedNotePresent = true;
+                    break;
+                }
+            }
+            if(!selectedNotePresent){
+                notesArray.push(selectedNoteAndID[1]);
+            }
+        }
+        for(let entry of notes){
+            if(calendarState["selectedDate"] == entry["lastModified"].toISOString().split("T")[0]){
+                notesArray.push(entry);
+            }
+        }
+        
+        return [selectedNoteAndID[0],notesArray];
     }
 )
