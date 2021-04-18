@@ -1,4 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
+import { DatePipe } from '@angular/common';
 import { colorDefinitions, allColors } from './colors/colors.constant';
 import {
   resetCalendarState,
@@ -31,10 +32,11 @@ export interface Note {
 }
 
 let currentDate: Date = new Date();
+let datePipe = new DatePipe('en-US');
 
 const initialState: Object = {
   calendar: {
-    selectedDate: currentDate.toISOString().split('T')[0],
+    selectedDate: datePipe.transform(currentDate,"yyyy-MM-dd"),
     selectedMonth: currentDate.getMonth(),
     selectedYear: currentDate.getFullYear(),
   },
@@ -50,15 +52,15 @@ const initialState: Object = {
         content: 'Its her 24th bday',
         color: 'BLUE',
         tags: [],
-        lastModified: new Date(2021, 2, 28),
+        lastModified: new Date(Date.parse("2021-03-27T01:30:00.000Z")),
       },
       'test -1': {
         id: 'test -1',
         title: 'Her bday',
-        content: 'Its her 24th bday',
+        content: 'Its his 24th bday',
         color: '',
         tags: [],
-        lastModified: new Date(2021, 2, 22),
+        lastModified: new Date(Date.parse("2021-03-21T07:30:00.000Z")),
       },
       'test 1': {
         id: 'test 1',
@@ -75,6 +77,30 @@ const initialState: Object = {
         color: 'ORANGE',
         tags: ["Mclaren"],
         lastModified: new Date(),
+      },
+      'test 3': {
+        id: 'test 3',
+        title: 'March final day',
+        content: 'Its the last day in march',
+        color: 'ORANGE',
+        tags: ["Finance"],
+        lastModified: new Date(Date.parse("2021-03-31T23:30:00.000Z")),
+      },
+      'test 4': {
+        id: 'test 4',
+        title: 'New Year',
+        content: 'Finally 2020 is over',
+        color: 'RED',
+        tags: [],
+        lastModified: new Date(Date.parse("2021-01-01T00:01:00.000Z")),
+      },
+      'test 5': {
+        id: 'test 5',
+        title: "New Year's Eve",
+        content: 'Finally 2020 is going to end',
+        color: 'RED',
+        tags: [],
+        lastModified: new Date(Date.parse("2020-12-31T12:01:00.000Z")),
       },
     },
     selectedNoteID: null,
@@ -93,7 +119,9 @@ export const globalReducer = createReducer(
       ...state,
       calendar: {
         ...state['calendar'],
-        selectedDate: date.toISOString().split('T')[0],
+        selectedDate: datePipe.transform(date,"yyyy-MM-dd"),
+        selectedMonth: date.getMonth(),
+        selectedYear: date.getFullYear()
       },
       notes: {
         ...state['notes'],
@@ -157,7 +185,7 @@ export const globalReducer = createReducer(
       ...state,
       calendar: {
         ...state['calendar'],
-        selectedDate: currentDate.toISOString().split('T')[0],
+        selectedDate: datePipe.transform(currentDate,"yyyy-MM-dd"),
         selectedMonth: currentDate.getMonth(),
         selectedYear: currentDate.getFullYear(),
       },
@@ -169,7 +197,7 @@ export const globalReducer = createReducer(
       ...state,
       calendar: {
         ...state['calendar'],
-        selectedDate: currentDate.toISOString().split('T')[0],
+        selectedDate: datePipe.transform(currentDate,"yyyy-MM-dd"),
         selectedMonth: currentDate.getMonth(),
         selectedYear: currentDate.getFullYear(),
       },
@@ -277,7 +305,7 @@ export const globalReducer = createReducer(
       tags: tags ? tags : [],
     };
     editedCalendar = {
-      selectedDate: lastModified.toISOString().split('T')[0],
+      selectedDate: datePipe.transform(lastModified,"yyyy-MM-dd"),
       selectedMonth: lastModified.getMonth(),
       selectedYear: lastModified.getFullYear(),
     };
@@ -357,13 +385,13 @@ export const globalReducer = createReducer(
       let editedCalendar: Object = {};
       if (
         state['calendar']['selectedDate'] !=
-          lastModified.toISOString().split('T')[0] ||
+        datePipe.transform(lastModified,"yyyy-MM-dd") ||
         state['calendar']['selectedMonth'] != lastModified.getMonth() ||
         state['calendar']['selectedYear'] != lastModified.getFullYear()
       ) {
         calendarEdits = true;
         editedCalendar = {
-          selectedDate: lastModified.toISOString().split('T')[0],
+          selectedDate: datePipe.transform(lastModified,"yyyy-MM-dd"),
           selectedMonth: lastModified.getMonth(),
           selectedYear: lastModified.getFullYear(),
         };

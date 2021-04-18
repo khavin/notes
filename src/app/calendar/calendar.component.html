@@ -16,7 +16,7 @@
             </span>
         </div>
     </div>
-    <div *ngIf="showCalendar">
+    <div [hidden]="!showCalendar">
         <div class="calendar-day-names-row">
             <span>SUN</span>
             <span>MON</span>
@@ -28,10 +28,10 @@
         </div>
         <app-date-rows></app-date-rows>
     </div>
-    <div *ngIf="showMonthSelector">
+    <div [hidden]="!showMonthSelector">
         <app-month-selector (monthChanged)="closeMonthSelector()"></app-month-selector>
     </div>
-    <div *ngIf="showYearSelector">
+    <div [hidden]="!showYearSelector">
         <app-year-selector (yearChanged)="closeYearSelector()"></app-year-selector>
     </div>
 </div>
