@@ -1,4 +1,7 @@
 import { createSelector } from '@ngrx/store';
+import { DatePipe } from '@angular/common';
+
+let datePipe = new DatePipe('en-US');
 
 export const filterNotesBySelectedColor = createSelector(
     state => state["global"]["notes"]["notesByID"],
@@ -54,7 +57,7 @@ export const getNotesForSelectedDate = createSelector(
             }
         }
         for(let entry of notes){
-            if(calendarState["selectedDate"] == entry["lastModified"].toISOString().split("T")[0]){
+            if(calendarState["selectedDate"] == datePipe.transform(entry["lastModified"],"yyyy-MM-dd")){
                 notesArray.push(entry);
             }
         }

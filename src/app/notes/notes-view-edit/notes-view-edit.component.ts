@@ -7,14 +7,12 @@ import {
   colorDefinitions,
   allColors,
 } from '../../colors/colors.constant';
-import { resetColorState } from '../../colors/colors.actions';
 import { Note } from 'src/app/app.reducer';
 import { FormControl } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 import { v1 as uuidv1 } from 'uuid';
-import { Observable, combineLatest, Subject, interval, Subscription } from 'rxjs';
+import { interval, Subscription } from 'rxjs';
 import { numberToShortMonthMappings } from 'src/app/calendar/calendar.constants';
-import { defaultThrottleConfig } from 'rxjs/internal/operators/throttle';
 
 @Component({
   selector: 'app-notes-view-edit',

@@ -37,7 +37,7 @@ export class DateRowsComponent implements OnInit {
     // Get first date day
     let firstDateDay:number  = firstDate.getDay();
     // Get next month first date
-    let nextMonthDate:Date = new Date(this.year, (this.month+1)%12, 1);
+    let nextMonthDate:Date = new Date(this.year, (this.month+1), 1);
 
     // Calculate previous month dates to show
     let previousMonthDates:Array<Object> = [];
@@ -59,5 +59,6 @@ export class DateRowsComponent implements OnInit {
 
     // Combine all dates
     this.dateList = this.dateList.concat(previousMonthDates,currentMonthDates,nextMonthDates);
+
   }  
 }
