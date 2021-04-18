@@ -1,7 +1,25 @@
 import { createSelector } from '@ngrx/store';
 
-export const getNotesByDesc = createSelector(
+export const filterNotesBySelectedColor = createSelector(
     state => state["global"]["notes"]["notesByID"],
+    state => state["global"]["colors"],
+    (notesState: Object,colorState: Object) => {
+        if(colorState["noColorSelected"] == true){
+            return notesState;
+        }else{
+            let filteredNotes: Object = {};
+            for(let note in notesState){
+                if(colorState["pickedColors"].includes(notesState[note]["color"])){
+                    filteredNotes[note] = notesState[note];
+                }
+            }
+            return filteredNotes;
+        }
+    }
+)
+
+export const getNotesByDesc = createSelector(
+    filterNotesBySelectedColor,
     (state:any) => {
         let flatDateArray = [];
         flatDateArray = flatDateArray.concat(Object.keys(state).map((id) => state[id]));  
