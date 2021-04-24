@@ -21,9 +21,7 @@ import {
   deleteNote,
   selectNote,
 } from './notes/notes.actions';
-import {
-  search
-} from './search/search.actions';
+import { search } from './search/search.actions';
 
 export interface Note {
   id: string;
@@ -39,7 +37,7 @@ let datePipe = new DatePipe('en-US');
 
 const initialState: Object = {
   calendar: {
-    selectedDate: datePipe.transform(currentDate,"yyyy-MM-dd"),
+    selectedDate: datePipe.transform(currentDate, 'yyyy-MM-dd'),
     selectedMonth: currentDate.getMonth(),
     selectedYear: currentDate.getFullYear(),
   },
@@ -55,7 +53,7 @@ const initialState: Object = {
         content: 'Its her 24th bday',
         color: 'BLUE',
         tags: [],
-        lastModified: new Date(Date.parse("2021-03-27T01:30:00.000Z")),
+        lastModified: new Date(Date.parse('2021-03-27T01:30:00.000Z')),
       },
       'test -1': {
         id: 'test -1',
@@ -63,14 +61,14 @@ const initialState: Object = {
         content: 'Its his 24th bday',
         color: '',
         tags: [],
-        lastModified: new Date(Date.parse("2021-03-21T07:30:00.000Z")),
+        lastModified: new Date(Date.parse('2021-03-21T07:30:00.000Z')),
       },
       'test 1': {
         id: 'test 1',
         title: 'First note',
         content: 'Its first',
         color: 'BLUE',
-        tags: ["Personal"],
+        tags: ['Personal'],
         lastModified: new Date(),
       },
       'test 2': {
@@ -78,7 +76,7 @@ const initialState: Object = {
         title: 'Second note',
         content: 'Its second',
         color: 'ORANGE',
-        tags: ["Mclaren"],
+        tags: ['Mclaren'],
         lastModified: new Date(),
       },
       'test 3': {
@@ -86,8 +84,8 @@ const initialState: Object = {
         title: 'March final day',
         content: 'Its the last day in march',
         color: 'ORANGE',
-        tags: ["Finance"],
-        lastModified: new Date(Date.parse("2021-03-31T23:30:00.000Z")),
+        tags: ['Finance'],
+        lastModified: new Date(Date.parse('2021-03-31T23:30:00.000Z')),
       },
       'test 4': {
         id: 'test 4',
@@ -95,7 +93,7 @@ const initialState: Object = {
         content: 'Finally 2020 is over',
         color: 'RED',
         tags: [],
-        lastModified: new Date(Date.parse("2021-01-01T00:01:00.000Z")),
+        lastModified: new Date(Date.parse('2021-01-01T00:01:00.000Z')),
       },
       'test 5': {
         id: 'test 5',
@@ -103,7 +101,7 @@ const initialState: Object = {
         content: 'Finally 2020 is going to end',
         color: 'RED',
         tags: [],
-        lastModified: new Date(Date.parse("2020-12-31T12:01:00.000Z")),
+        lastModified: new Date(Date.parse('2020-12-31T12:01:00.000Z')),
       },
     },
     selectedNoteID: null,
@@ -125,16 +123,16 @@ export const globalReducer = createReducer(
         ...state['notes'],
         selectedNoteID: null,
       },
-    }
+    };
   }),
   on(changeSelectedDate, (state, { date }) => {
     return {
       ...state,
       calendar: {
         ...state['calendar'],
-        selectedDate: datePipe.transform(date,"yyyy-MM-dd"),
+        selectedDate: datePipe.transform(date, 'yyyy-MM-dd'),
         selectedMonth: date.getMonth(),
-        selectedYear: date.getFullYear()
+        selectedYear: date.getFullYear(),
       },
       notes: {
         ...state['notes'],
@@ -198,7 +196,7 @@ export const globalReducer = createReducer(
       ...state,
       calendar: {
         ...state['calendar'],
-        selectedDate: datePipe.transform(currentDate,"yyyy-MM-dd"),
+        selectedDate: datePipe.transform(currentDate, 'yyyy-MM-dd'),
         selectedMonth: currentDate.getMonth(),
         selectedYear: currentDate.getFullYear(),
       },
@@ -210,7 +208,7 @@ export const globalReducer = createReducer(
       ...state,
       calendar: {
         ...state['calendar'],
-        selectedDate: datePipe.transform(currentDate,"yyyy-MM-dd"),
+        selectedDate: datePipe.transform(currentDate, 'yyyy-MM-dd'),
         selectedMonth: currentDate.getMonth(),
         selectedYear: currentDate.getFullYear(),
       },
@@ -306,9 +304,8 @@ export const globalReducer = createReducer(
     };
   }),
   on(createNote, (state, { id, title, content, color, tags }) => {
-
     let lastModified = new Date();
-    let editedCalendar:Object = {};
+    let editedCalendar: Object = {};
     let note: Note = {
       id: id,
       title: title ? title : '',
@@ -318,7 +315,7 @@ export const globalReducer = createReducer(
       tags: tags ? tags : [],
     };
     editedCalendar = {
-      selectedDate: datePipe.transform(lastModified,"yyyy-MM-dd"),
+      selectedDate: datePipe.transform(lastModified, 'yyyy-MM-dd'),
       selectedMonth: lastModified.getMonth(),
       selectedYear: lastModified.getFullYear(),
     };
@@ -347,15 +344,14 @@ export const globalReducer = createReducer(
   on(editNote, (state, { id, title, content, color, tags }) => {
     let noEdits: boolean = true;
     let editedParams: Object = {};
+
+    // Check if note is changed
+    let titleChanged = false;
+    let contentChanged = false;
+    let colorChanged = false;
+    let tagsChanged = false;
     if (id in state['notes']['notesByID']) {
-
       let prevNoteIter: Note = state['notes']['notesByID'][id];
-
-      // Check if note is changed
-      let titleChanged = false;
-      let contentChanged = false;
-      let colorChanged = false;
-      let tagsChanged = false;
 
       if (title != null && title != prevNoteIter.title) {
         titleChanged = true;
@@ -382,7 +378,7 @@ export const globalReducer = createReducer(
 
       if (tags != null && removedTags.length + newTags.length > 0) {
         tagsChanged = true;
-        editedParams['tags'] =  tags;
+        editedParams['tags'] = tags;
       }
 
       if (
@@ -393,41 +389,58 @@ export const globalReducer = createReducer(
       }
     }
     if (!noEdits && id in state['notes']['notesByID']) {
-      let lastModified: Date = new Date();
-      let calendarEdits: boolean = false;
-      let editedCalendar: Object = {};
-      if (
-        state['calendar']['selectedDate'] !=
-        datePipe.transform(lastModified,"yyyy-MM-dd") ||
-        state['calendar']['selectedMonth'] != lastModified.getMonth() ||
-        state['calendar']['selectedYear'] != lastModified.getFullYear()
-      ) {
-        calendarEdits = true;
-        editedCalendar = {
-          selectedDate: datePipe.transform(lastModified,"yyyy-MM-dd"),
-          selectedMonth: lastModified.getMonth(),
-          selectedYear: lastModified.getFullYear(),
-        };
-      }
-      if (calendarEdits) {
-        return {
-          ...state,
-          notes: {
-            ...state['notes'],
-            notesByID: {
-              ...state['notes']['notesByID'],
-              [id]: {
-                ...state['notes']['notesByID'][[id]],
-                lastModified: lastModified,
-                ...editedParams,
+      if (titleChanged || contentChanged) {
+        let lastModified: Date = new Date();
+        let calendarEdits: boolean = false;
+        let editedCalendar: Object = {};
+        if (
+          state['calendar']['selectedDate'] !=
+            datePipe.transform(lastModified, 'yyyy-MM-dd') ||
+          state['calendar']['selectedMonth'] != lastModified.getMonth() ||
+          state['calendar']['selectedYear'] != lastModified.getFullYear()
+        ) {
+          calendarEdits = true;
+          editedCalendar = {
+            selectedDate: datePipe.transform(lastModified, 'yyyy-MM-dd'),
+            selectedMonth: lastModified.getMonth(),
+            selectedYear: lastModified.getFullYear(),
+          };
+        }
+        if (calendarEdits) {
+          return {
+            ...state,
+            notes: {
+              ...state['notes'],
+              notesByID: {
+                ...state['notes']['notesByID'],
+                [id]: {
+                  ...state['notes']['notesByID'][[id]],
+                  lastModified: lastModified,
+                  ...editedParams,
+                },
               },
             },
-          },
-          calendar: {
-            ...state['calendar'],
-            ...editedCalendar,
-          },
-        };
+            calendar: {
+              ...state['calendar'],
+              ...editedCalendar,
+            },
+          };
+        } else {
+          return {
+            ...state,
+            notes: {
+              ...state['notes'],
+              notesByID: {
+                ...state['notes']['notesByID'],
+                [id]: {
+                  ...state['notes']['notesByID'][[id]],
+                  lastModified: lastModified,
+                  ...editedParams,
+                },
+              },
+            },
+          };
+        }
       } else {
         return {
           ...state,
@@ -437,7 +450,6 @@ export const globalReducer = createReducer(
               ...state['notes']['notesByID'],
               [id]: {
                 ...state['notes']['notesByID'][[id]],
-                lastModified: lastModified,
                 ...editedParams,
               },
             },
