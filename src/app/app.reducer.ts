@@ -350,6 +350,7 @@ export const globalReducer = createReducer(
     let contentChanged = false;
     let colorChanged = false;
     let tagsChanged = false;
+
     if (id in state['notes']['notesByID']) {
       let prevNoteIter: Note = state['notes']['notesByID'][id];
 
@@ -388,74 +389,42 @@ export const globalReducer = createReducer(
         noEdits = false;
       }
     }
+    
     if (!noEdits && id in state['notes']['notesByID']) {
+      let editedCalendar: Object = state['calendar'];
       if (titleChanged || contentChanged) {
         let lastModified: Date = new Date();
-        let calendarEdits: boolean = false;
-        let editedCalendar: Object = {};
+        editedParams['lastModified'] = lastModified;
+
         if (
           state['calendar']['selectedDate'] !=
             datePipe.transform(lastModified, 'yyyy-MM-dd') ||
           state['calendar']['selectedMonth'] != lastModified.getMonth() ||
           state['calendar']['selectedYear'] != lastModified.getFullYear()
         ) {
-          calendarEdits = true;
           editedCalendar = {
             selectedDate: datePipe.transform(lastModified, 'yyyy-MM-dd'),
             selectedMonth: lastModified.getMonth(),
             selectedYear: lastModified.getFullYear(),
           };
         }
-        if (calendarEdits) {
-          return {
-            ...state,
-            notes: {
-              ...state['notes'],
-              notesByID: {
-                ...state['notes']['notesByID'],
-                [id]: {
-                  ...state['notes']['notesByID'][[id]],
-                  lastModified: lastModified,
-                  ...editedParams,
-                },
-              },
-            },
-            calendar: {
-              ...state['calendar'],
-              ...editedCalendar,
-            },
-          };
-        } else {
-          return {
-            ...state,
-            notes: {
-              ...state['notes'],
-              notesByID: {
-                ...state['notes']['notesByID'],
-                [id]: {
-                  ...state['notes']['notesByID'][[id]],
-                  lastModified: lastModified,
-                  ...editedParams,
-                },
-              },
-            },
-          };
-        }
-      } else {
-        return {
-          ...state,
-          notes: {
-            ...state['notes'],
-            notesByID: {
-              ...state['notes']['notesByID'],
-              [id]: {
-                ...state['notes']['notesByID'][[id]],
-                ...editedParams,
-              },
+      }
+      return {
+        ...state,
+        notes: {
+          ...state['notes'],
+          notesByID: {
+            ...state['notes']['notesByID'],
+            [id]: {
+              ...state['notes']['notesByID'][[id]],
+              ...editedParams,
             },
           },
-        };
-      }
+        },
+        calendar: {
+          ...editedCalendar,
+        },
+      };
     } else {
       return {
         ...state,
