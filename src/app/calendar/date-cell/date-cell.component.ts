@@ -16,19 +16,11 @@ export class DateCellComponent implements OnInit {
   colorPalette:colors = colorDefinitions;
 
   ngOnInit(): void {
-    console.log('here');
   }
 
-  ngOnChanges(changes:any): void {
-    console.log("here 1");
-    console.log(changes);
-  }
 
   selectDate(): void {
     this.store.dispatch(changeSelectedDate({date: new Date(this.date["year"],this.date["month"],this.date["date"])}))
   }
 
-  test(){
-    console.log("here 2")
-  }
 }
