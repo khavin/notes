@@ -1,30 +1,31 @@
 <div class="calendar-date-row">
-    <span *ngFor="let date of dateList.slice(0,7)">
+    <span *ngFor="let date of dateColorList.slice(0,7)">
         <app-date-cell [date]='date'></app-date-cell>
     </span>
 </div>
 <div class="calendar-date-row">
-    <span *ngFor="let date of dateList.slice(7,14)">
+    <span *ngFor="let date of dateColorList.slice(7,14)">
         <app-date-cell [date]='date'></app-date-cell>
     </span>
 </div>
 <div class="calendar-date-row">
-    <span *ngFor="let date of dateList.slice(14,21)">
+    <span *ngFor="let date of dateColorList.slice(14,21)">
         <app-date-cell [date]='date'></app-date-cell>
     </span>
 </div>
 <div class="calendar-date-row">
-    <span *ngFor="let date of dateList.slice(21,28)">
+    {{ test() }}
+    <span *ngFor="let date of dateColorList.slice(21,28)">
         <app-date-cell [date]='date'></app-date-cell>
     </span>
 </div>
 <div class="calendar-date-row">
-    <span *ngFor="let date of dateList.slice(28,35)">
+    <span *ngFor="let date of dateColorList.slice(28,35)">
         <app-date-cell [date]='date'></app-date-cell>
     </span>
 </div>
 <div class="calendar-date-row">
-    <span *ngFor="let date of dateList.slice(35,42)">
+    <span *ngFor="let date of dateColorList.slice(35,42)">
         <app-date-cell [date]='date'></app-date-cell>
     </span>
 </div>

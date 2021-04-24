@@ -1,1 +1,6 @@
 <span (click)="selectDate()">{{ date['date'] }}</span>
+{{ test() }}
+<div>
+    <span *ngFor="let color of date['colors']" class="dot" [ngStyle]="{'backgroundColor': colorPalette[color] }">
+    </span>
+</div>
