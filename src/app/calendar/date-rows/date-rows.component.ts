@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { getPreviewMonthAndYear } from '../calendar.selector';
+import { getNotesByDesc } from '../../notes/notes.selector';
+import { Note } from '../../app.reducer';
 
 @Component({
   selector: 'app-date-rows',

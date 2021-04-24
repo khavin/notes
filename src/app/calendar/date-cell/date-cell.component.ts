@@ -14,10 +14,15 @@ export class DateCellComponent implements OnInit {
   @Input() date:Object;
   
   ngOnInit(): void {
+    console.log(this.date);
   }
 
   selectDate(): void {
     this.store.dispatch(changeSelectedDate({date: new Date(this.date["year"],this.date["month"],this.date["date"])}))
+  }
+
+  ngOnDestroy(): void {
+    console.log("here");
   }
 
 }

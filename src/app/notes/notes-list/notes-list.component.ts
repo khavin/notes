@@ -3,6 +3,7 @@ import { Store,select } from '@ngrx/store';
 import { Note } from '../../app.reducer';
 import { selectNote } from '../notes.actions';
 import { getNotesForSelectedDate } from '../notes.selector';
+import { NotesService } from '../notes.service';
 
 @Component({
   selector: 'app-notes-list',
@@ -13,7 +14,9 @@ export class NotesListComponent implements OnInit {
 
   notes:Array<Note> = [];
   selectedNoteID:string = null;
-  constructor(private store:Store) { }
+  selectedNoteTitle:string = '';
+  selectedNoteContent:string = '';
+  constructor(private store:Store, private notesService:NotesService) { }
 
   ngOnInit(): void {
     this.store.pipe(select(getNotesForSelectedDate)).subscribe((data) => {
@@ -32,7 +35,22 @@ export class NotesListComponent implements OnInit {
       }else{
         this.selectedNoteID = null;
       }
-      
+    })
+
+    // display real time note title and content as typed
+    this.notesService.selectedNoteTitle.subscribe((data) => {
+      if(data.length == 0){
+        this.selectedNoteTitle = "Untitled"
+      }else{
+        this.selectedNoteTitle = data;
+      }
+    })
+    this.notesService.selectedNoteContent.subscribe((data) => {
+      if(data.length == 0){
+        this.selectedNoteContent = "No content"
+      }else{
+        this.selectedNoteContent = data;
+      }
     })
   }
 
