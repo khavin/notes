@@ -18,24 +18,19 @@ export class DateRowsComponent implements OnInit {
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    console.log("here")
     this.store
       .pipe(select(getPreviewMonthAndYear))
       .subscribe((monthAndYear) => {
-        console.log(1);
         this.month = monthAndYear[0];
         this.year = monthAndYear[1];
         this.generateDateList();
       });
     this.store.pipe(select(getNotesByDesc)).subscribe((notes) => {
-      console.log(2);
       this.notes = notes;
       this.generateDateList();
     });
   }
-  test(): void {
-    console.log(100);
-  }
+  
   generateDateList(): void {
     let dateList: Array<Object> = [];
 
