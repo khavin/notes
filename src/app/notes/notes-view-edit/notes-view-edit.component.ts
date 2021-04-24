@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { createNote, editNote, deleteNote } from '../notes.actions';
 import { getSelectedNoteAndID } from '../notes.selector';
+import { NotesService } from '../notes.service';
 import {
   colors,
   colorDefinitions,
@@ -36,7 +37,7 @@ export class NotesViewEditComponent implements OnInit {
   tags: Array<string> = [];
   saveInterval: number = 500;
   subscriptions: Array<Subscription> = [];
-  constructor(private store: Store) {}
+  constructor(private store: Store, private notesService:NotesService) {}
 
   ngOnInit(): void {
     this.store.pipe(select(getSelectedNoteAndID)).subscribe((data) => {
@@ -83,6 +84,15 @@ export class NotesViewEditComponent implements OnInit {
         let contentObservable = this.noteContent.valueChanges.pipe(
           debounceTime(this.saveInterval)
         );
+
+        // Emit title as it changes to note list component
+        this.noteTitle.valueChanges.subscribe((data) => {
+          this.notesService.selectedNoteTitle.next(data);
+        })
+        this.noteContent.valueChanges.subscribe((data) => {
+          this.notesService.selectedNoteContent.next(data);
+        })
+
         let subscriptions:Array<Subscription> = [];
 
         subscriptions.push(titleObservable.subscribe((data) => {

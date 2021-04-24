@@ -1,4 +1,10 @@
 <div *ngFor="let note of notes" (click)="selectNote(note['id'])">
-    <span>{{ note['title'] }}</span><br>
-    <span>{{ note['content'] }}</span>
+    <span *ngIf="note['id'] == selectedNoteID">
+        <span>{{ selectedNoteTitle }}</span><br>
+        <span>{{ selectedNoteContent }}</span>
+    </span>
+    <span *ngIf="note['id'] != selectedNoteID">
+        <span>{{ note['title'] }}</span><br>
+        <span>{{ note['content'] }}</span>
+    </span>
 </div>
