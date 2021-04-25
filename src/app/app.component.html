@@ -1,8 +1,18 @@
-<app-calendar></app-calendar>
-<app-color-picker></app-color-picker>
-<app-search-bar></app-search-bar>
-<br>
-<app-notes-list></app-notes-list>
-<app-notes-view-edit></app-notes-view-edit>
-<br>
-<app-tags-list></app-tags-list>
+<div class="notes">
+    <div class="navbar">
+        <span class="app-name">notes</span>
+        <app-search-bar></app-search-bar>
+        <span></span>
+    </div>
+    <div class="notes-content">
+        <div class="notes-sidebar">
+            <app-calendar></app-calendar>
+            <app-color-picker></app-color-picker>
+            <app-tags-list></app-tags-list>
+        </div>
+        <div class="notes-list-view-edit">
+            <app-notes-list class="notes-list"></app-notes-list>
+            <app-notes-view-edit class="notes-view-edit"></app-notes-view-edit>
+        </div>
+    </div>
+</div>

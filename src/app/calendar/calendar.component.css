@@ -1,6 +1,3 @@
-.calendar{
-    width: 20%;    
-}
 .calendar-header{
     display: grid;
     grid-template-rows: 1.5rem;

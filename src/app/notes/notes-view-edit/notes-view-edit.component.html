@@ -1,20 +1,23 @@
-
-<input type="text" style="color: blueviolet;" [formControl]="noteTitle">
-<br>
-<input type="text" style="color: blueviolet;" [formControl]="noteContent">
-<br>
-<span *ngFor="let tag of tags">
-    <span (click)="removeTag(tag)">x</span>{{tag}}
-</span>
-<div *ngFor="let color of availableColors">
-    <span class="dot" [ngStyle]="{'backgroundColor': colorPalette[color] }" (click)="colorSelected(color)">
-        <span *ngIf="pickedColor == color" class="check-mark">
-            &#10003;
+<div class="view-edit">
+    <input class="note-title" placeholder="Title..." type="text" [formControl]="noteTitle">
+    <textarea class="note-content" placeholder="Content..." [formControl]="noteContent"></textarea>
+    <span class="tags">
+        <span *ngFor="let tag of tags" class="tag">
+            <span class="delete-tag" (click)="removeTag(tag)">&nbsp;x&nbsp;</span>
+            {{tag}}
         </span>
     </span>
+    <div class="color-picker">
+        <span *ngFor="let color of availableColors" class="dot" [ngStyle]="{'backgroundColor': colorPalette[color] }"
+            (click)="colorSelected(color)">
+            <span *ngIf="pickedColor == color" class="check-mark">
+                &#10003;
+            </span>
+        </span>
+    </div>
+    <div>
+        <button (click)="createNote()">Create Note</button>
+        <button (click)="deleteNote()">Delete Note</button>
+        <input type="text" style="color: blueviolet;" [formControl]="noteTags" (keydown)="addTag($event)">
+    </div>
 </div>
-
-<button (click)="createNote()">Create Note</button>
-<button (click)="deleteNote()">Delete Note</button>
-<br>
-<input type="text" style="color: blueviolet;" [formControl]="noteTags" (keydown)="addTag($event)">

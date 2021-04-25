@@ -1,0 +1,35 @@
+.notes{
+    padding: 0.75rem;
+    display: grid;
+    grid-template-rows: 5% 95%;
+}
+.notes-content{
+    margin-top: 0.75rem;
+    display: grid;
+    grid-template-columns: 25% auto;
+}
+.notes-sidebar{
+    display: grid;
+    grid-template-rows: auto 1fr 3fr;
+    padding: 0 0.5rem;
+}
+.notes-list-view-edit{
+    display: grid;
+    grid-template-columns: minmax(0,3fr) 7fr;
+}
+.app-name{
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+.navbar{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+.notes-list{
+    background-color: #0d0d0d;
+}
+.notes-view-edit{
+    padding: 0.5rem 1rem;
+    min-width: 0;
+    background-color: #1a1a1a;
+}
