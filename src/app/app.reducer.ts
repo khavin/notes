@@ -68,11 +68,128 @@ const initialState: Object = {
         title: 'First note',
         content: 'Its first',
         color: 'BLUE',
-        tags: ['Personal'],
+        tags: ['Personal',"test","cricket","baseball","hockey","1","2","3","4","5","6","7","8","9","abc","def","jalkdjf","fajsdka","dfjalsdjflak","yfh","faskjfka","fjakjf","fakjfklajdfkajkjkfjkf","fkjakfjka","jfkajfkj3","jflkajf djfk","fjlkdfjak fjfk fkjdf df j","dfjakfjkj343","dfjakfjkaj33 k3 3"],
         lastModified: new Date(),
       },
       'test 2': {
         id: 'test 2',
+        title: 'Second note',
+        content: 'Its second',
+        color: 'ORANGE',
+        tags: ['Mclaren'],
+        lastModified: new Date(),
+      },
+      
+      'test 2a': {
+        id: 'test 2a',
+        title: 'Second note',
+        content: 'Its second',
+        color: 'ORANGE',
+        tags: ['Mclaren'],
+        lastModified: new Date(),
+      },
+      
+      'test 2b': {
+        id: 'test 2b',
+        title: 'Second note',
+        content: 'Its second',
+        color: 'ORANGE',
+        tags: ['Mclaren'],
+        lastModified: new Date(),
+      },
+      
+      'test 2c': {
+        id: 'test 2c',
+        title: 'Second note',
+        content: 'Its second',
+        color: 'ORANGE',
+        tags: ['Mclaren'],
+        lastModified: new Date(),
+      },
+      
+      'test 2d': {
+        id: 'test 2d',
+        title: 'Second note',
+        content: 'Its second',
+        color: 'ORANGE',
+        tags: ['Mclaren'],
+        lastModified: new Date(),
+      },
+      
+      'test 2e': {
+        id: 'test 2e',
+        title: 'Second note',
+        content: 'Its second',
+        color: 'ORANGE',
+        tags: ['Mclaren'],
+        lastModified: new Date(),
+      },
+      
+      'test 2f': {
+        id: 'test 2f',
+        title: 'Second note',
+        content: 'Its second',
+        color: 'ORANGE',
+        tags: ['Mclaren'],
+        lastModified: new Date(),
+      },
+      
+      'test 2g': {
+        id: 'test 2g',
+        title: 'Second note',
+        content: 'Its second',
+        color: 'ORANGE',
+        tags: ['Mclaren'],
+        lastModified: new Date(),
+      },
+      
+      'test 2h': {
+        id: 'test 2h',
+        title: 'Second note',
+        content: 'Its second',
+        color: 'ORANGE',
+        tags: ['Mclaren'],
+        lastModified: new Date(),
+      },
+      
+      'test 2i': {
+        id: 'test 2i',
+        title: 'Second note',
+        content: 'Its second',
+        color: 'ORANGE',
+        tags: ['Mclaren'],
+        lastModified: new Date(),
+      },
+      
+      'test 2j': {
+        id: 'test 2j',
+        title: 'Second note',
+        content: 'Its second',
+        color: 'ORANGE',
+        tags: ['Mclaren'],
+        lastModified: new Date(),
+      },
+      
+      'test 2k': {
+        id: 'test 2k',
+        title: 'Second note',
+        content: 'Its second',
+        color: 'ORANGE',
+        tags: ['Mclaren'],
+        lastModified: new Date(),
+      },
+      
+      'test 2l': {
+        id: 'test 2l',
+        title: 'Second note',
+        content: 'Its second',
+        color: 'ORANGE',
+        tags: ['Mclaren'],
+        lastModified: new Date(),
+      },
+      
+      'test 2m': {
+        id: 'test 2m',
         title: 'Second note',
         content: 'Its second',
         color: 'ORANGE',
@@ -200,6 +317,10 @@ export const globalReducer = createReducer(
         selectedMonth: currentDate.getMonth(),
         selectedYear: currentDate.getFullYear(),
       },
+      notes: {
+        ...state['notes'],
+        selectedNoteID: null
+      }
     };
   }),
   on(resetCalendarState, (state) => {

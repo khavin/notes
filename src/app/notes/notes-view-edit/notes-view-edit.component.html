@@ -1,23 +1,33 @@
-<div class="view-edit">
-    <input class="note-title" placeholder="Title..." type="text" [formControl]="noteTitle" (keydown)="moveToContent($event)" #editTitle>
-    <textarea class="note-content" placeholder="Content..." [formControl]="noteContent" (keydown)="moveToTitle($event)" #editContent></textarea>
-    <span class="tags">
-        <span *ngFor="let tag of tags" class="tag">
-            <span class="delete-tag" (click)="removeTag(tag)">&nbsp;x&nbsp;</span>
+<div class="note-info">
+    <span class="color-picker">
+        <span *ngFor="let color of availableColors"
+        (click)="colorSelected(color)">
+        <span *ngIf="pickedColor == color" class="material-icons color-tag" [ngStyle]="{'color': colorPalette[color] }">
+            check_circle
+        </span>
+        <span *ngIf="! (pickedColor == color)" class="material-icons color-tag" [ngStyle]="{'color': colorPalette[color] }">
+            circle
+        </span>
+    </span>
+    </span>
+    <span class="edited-time">{{ lastModifiedTime }}</span>
+    <i *ngIf="!(!title && !content)" class="material-icons delete-icon" (click)="deleteNote()">
+        delete_outline
+    </i>
+    <i *ngIf="!title && !content" class="material-icons disabled-delete-icon">
+        delete_outline
+    </i>
+</div>
+<input class="note-title" placeholder="Title..." type="text" [formControl]="noteTitle" (keydown)="moveToContent($event)" #editTitle>
+<textarea class="note-content" placeholder="Content..." [formControl]="noteContent" (keydown)="moveToTitle($event)" #editContent></textarea>
+<input class="note-tag" type="text" placeholder="Type and press enter to create tags" [formControl]="noteTags" (keydown)="addTag($event)">
+<span class="tags">
+    <span *ngFor="let tag of tags" class="full-tag">
+        <span class="tag">
+            <span class="material-icons delete-tag" (click)="removeTag(tag)">
+                close
+            </span>
             {{tag}}
         </span>
     </span>
-    <div class="color-picker">
-        <span *ngFor="let color of availableColors" class="dot" [ngStyle]="{'backgroundColor': colorPalette[color] }"
-            (click)="colorSelected(color)">
-            <span *ngIf="pickedColor == color" class="check-mark">
-                &#10003;
-            </span>
-        </span>
-    </div>
-    <div>
-        <button (click)="createNote()">Create Note</button>
-        <button (click)="deleteNote()">Delete Note</button>
-        <input type="text" style="color: blueviolet;" [formControl]="noteTags" (keydown)="addTag($event)">
-    </div>
-</div>
+</span>
