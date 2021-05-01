@@ -1,37 +1,37 @@
 <div class="calendar">
     <div class="calendar-header">
         <div class="calendar-header-month-year">
-            <span (click)="openMonthSelector()">{{ month | async }}</span>,
-            <span (click)="openYearSelector()">{{ year | async }}</span>
+            <span class="calendar-navigation-button" (click)="openMonthSelector()">{{ month | async }}</span>
+            <span class="calendar-navigation-button" (click)="openYearSelector()">{{ year | async }}</span>
         </div>
         <div class="calendar-header-navbar">
-            <span (click)='previousMonth()'>
-                &lt;
+            <span class="material-icons calendar-navigation-button calendar-navigation-arrow" (click)='nextMonth()'>
+                chevron_right
             </span>
-            <span (click)="changePreviewToToday()">
+            <span class="calendar-navigation-button" (click)="changePreviewToToday()">
                 Today
             </span>
-            <span (click)='nextMonth()'>
-                &gt;
+            <span class="material-icons calendar-navigation-button calendar-navigation-arrow" (click)='previousMonth()'>
+                chevron_left
             </span>
         </div>
     </div>
-    <div [hidden]="!showCalendar">
+    <div class="calendar-content" [hidden]="!showCalendar">
         <div class="calendar-day-names-row">
-            <span>SUN</span>
-            <span>MON</span>
-            <span>TUE</span>
-            <span>WED</span>
-            <span>THU</span>
-            <span>FRI</span>
-            <span>SAT</span>
+            <span class="calendar-entry">SUN</span>
+            <span class="calendar-entry">MON</span>
+            <span class="calendar-entry">TUE</span>
+            <span class="calendar-entry">WED</span>
+            <span class="calendar-entry">THU</span>
+            <span class="calendar-entry">FRI</span>
+            <span class="calendar-entry">SAT</span>
         </div>
         <app-date-rows></app-date-rows>
     </div>
-    <div [hidden]="!showMonthSelector">
+    <div class="month-picker" *ngIf="showMonthSelector">
         <app-month-selector (monthChanged)="closeMonthSelector()"></app-month-selector>
     </div>
-    <div [hidden]="!showYearSelector">
+    <div class="year-picker" *ngIf="showYearSelector">
         <app-year-selector (yearChanged)="closeYearSelector()"></app-year-selector>
     </div>
 </div>
