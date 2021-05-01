@@ -47,6 +47,8 @@ export class CalendarComponent implements OnInit {
       this.showCalendar = false;
       this.showYearSelector = false;
       this.showMonthSelector = true;
+    }else{
+      this.closeMonthSelector();
     }
   }
 
@@ -61,6 +63,8 @@ export class CalendarComponent implements OnInit {
       this.showCalendar = false;
       this.showMonthSelector = false;
       this.showYearSelector = true;
+    }else{
+      this.closeYearSelector();
     }
   }
 
