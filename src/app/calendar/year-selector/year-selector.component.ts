@@ -1,6 +1,7 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, ViewChild, ElementRef } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-
+import { fromEvent } from 'rxjs';
+import { throttleTime } from 'rxjs/operators';
 import { changePreviewYear } from '../calendar.actions';
 import { getPreviewYear } from '../calendar.selector';
 
@@ -11,6 +12,7 @@ import { getPreviewYear } from '../calendar.selector';
 })
 export class YearSelectorComponent implements OnInit {
 
+  @ViewChild("yearSelector") yearSelector: ElementRef;
   @Output() yearChanged = new EventEmitter();
   selectedYear:number;
   yearPreviews:Array<number>;
@@ -19,7 +21,18 @@ export class YearSelectorComponent implements OnInit {
   ngOnInit(): void {
     this.store.pipe(select(getPreviewYear)).subscribe((year) => {
       this.selectedYear =  year;
-      this.yearPreviews = [year-2,year-1,year,year+1,year+2];
+      this.yearPreviews = [year-3, year-2,year-1,year,year+1,year+2, year+3];
+    })
+  }
+
+  ngAfterViewInit(): void {
+    fromEvent(this.yearSelector.nativeElement,'wheel').pipe(throttleTime(100)).subscribe((data) => {
+      if(data['deltaY'] > 0){
+        this.incrementYearPreviews();
+      }
+      if(data['deltaY'] < 0){
+        this.decrementYearPreviews();
+      }
     })
   }
 
@@ -33,24 +46,16 @@ export class YearSelectorComponent implements OnInit {
 
   decrementYearPreviews(): void {
     let temp:Array<number> = [];
-    for(let year of this.yearPreviews){
-      temp.push(year-1);
+    if(this.yearPreviews[0] - 1 >= 1970){
+      for(let year of this.yearPreviews){
+        temp.push(year-1);
+      }
+      this.yearPreviews = temp;
     }
-    this.yearPreviews = temp;
   }
 
   changeYear(year:number): void {
     this.store.dispatch(changePreviewYear({year: year}));
     this.yearChanged.emit();
   }
-
-  scrollEvent(event:any): void {
-    if(event.deltaY > 0){
-      this.incrementYearPreviews();
-    }
-    if(event.deltaY < 0){
-      this.decrementYearPreviews();
-    }
-  }
-
 }
