@@ -2,15 +2,20 @@
     <div class="navbar">
         <span class="app-name">notes</span>
         <app-search-bar></app-search-bar>
-        <span class="material-icons create-note" (click)="createNote()">
-            mode_edit_outline
-        </span>
     </div>
     <div class="notes-content">
         <div class="notes-sidebar">
             <app-calendar></app-calendar>
+            <span class="section-title">Color tags</span>
             <app-color-picker></app-color-picker>
+            <span class="section-title">Tags</span>
             <app-tags-list></app-tags-list>
+            <span class="create-note" (click)="createNote()">
+                New Note&nbsp;
+                <span class="material-icons">
+                    mode_edit_outline
+                </span>
+            </span>
         </div>
         <div class="notes-list-view-edit">
             <app-notes-list class="notes-list"></app-notes-list>

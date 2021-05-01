@@ -47,7 +47,7 @@ export class NotesListComponent implements OnInit {
     })
     this.notesService.selectedNoteContent.subscribe((data) => {
       if(data.length == 0){
-        this.selectedNoteContent = "No content"
+        this.selectedNoteContent = "No additional content"
       }else{
         this.selectedNoteContent = data;
       }

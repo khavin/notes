@@ -24,3 +24,9 @@
 .not-selected{
     border-bottom: 1px solid grey;
 }
+.empty-list{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
