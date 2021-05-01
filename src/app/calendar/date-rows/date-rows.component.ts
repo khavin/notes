@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { getPreviewMonthAndYear } from '../calendar.selector';
+import { getPreviewMonthAndYear, getSelectedDate } from '../calendar.selector';
 import { getNotesByDesc } from '../../notes/notes.selector';
 import { Note } from '../../app.reducer';
 
@@ -15,6 +15,7 @@ export class DateRowsComponent implements OnInit {
   year: number;
   dateColorList: Array<Object>;
   notes: Array<Note> = [];
+  selectedDate: Object;
   constructor(private store: Store) {}
 
   ngOnInit(): void {
@@ -29,6 +30,15 @@ export class DateRowsComponent implements OnInit {
       this.notes = notes;
       this.generateDateList();
     });
+    this.store.select(getSelectedDate).subscribe((data) => {
+      data = data.split("-");
+      this.selectedDate = {
+        "year": parseInt(data[0]),
+        "month": parseInt(data[1])-1,
+        "date": parseInt(data[2])
+      };
+      console.log(this.selectedDate);
+    })
   }
   
   generateDateList(): void {

@@ -180,8 +180,12 @@ export class NotesViewEditComponent implements OnInit {
 
   addTag(event): void {
     if (event.key == 'Enter') {
-      if (!this.tags.includes(this.editingTag)) {
-        this.tags = [...this.tags, this.editingTag];
+      let lowerCasedTags = [];
+      for(let tag of this.tags){
+        lowerCasedTags.push(tag.toLowerCase());
+      }
+      if (!lowerCasedTags.includes(this.editingTag.toLowerCase())) {
+        this.tags = [...this.tags, this.editingTag.toLowerCase()];
       }
       this.noteTags.setValue('');
       this.checkForChanges();
