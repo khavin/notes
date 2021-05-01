@@ -2,20 +2,24 @@
     height: 100%;
     display: grid;
     grid-template-rows: 5% 95%;
+    overflow: hidden;
 }
 .notes-content{
     padding: 0.75rem;
     display: grid;
     grid-template-columns: 25% auto;
+    overflow: hidden;
 }
 .notes-sidebar{
     display: grid;
     grid-template-rows: auto 1fr 3fr;
     padding: 0 0.5rem;
+    overflow: hidden;
 }
 .notes-list-view-edit{
     display: grid;
     grid-template-columns: minmax(0,3fr) 7fr;
+    overflow: hidden;
 }
 .app-name{
     font-size: 1.5rem;
@@ -27,10 +31,27 @@
     grid-template-columns: 1fr 1fr 1fr;
 }
 .notes-list{
+    padding: 0.75rem;
     background-color: #0d0d0d;
+    overflow-y: scroll;
 }
 .notes-view-edit{
     padding: 0.5rem 1rem;
     min-width: 0;
     background-color: #1a1a1a;
+    height: 100%;
+    display: grid;
+    grid-template-rows: 1fr 1fr 12fr 3fr 2fr;
+    overflow: hidden;
+}
+app-tags-list{
+    overflow-y: scroll;
+}
+.create-note{
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    color: orange;
+    font-size: 1.25rem;
+    cursor: pointer;
 }
