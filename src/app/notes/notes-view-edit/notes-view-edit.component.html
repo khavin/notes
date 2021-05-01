@@ -1,6 +1,6 @@
 <div class="view-edit">
-    <input class="note-title" placeholder="Title..." type="text" [formControl]="noteTitle">
-    <textarea class="note-content" placeholder="Content..." [formControl]="noteContent"></textarea>
+    <input class="note-title" placeholder="Title..." type="text" [formControl]="noteTitle" (keydown)="moveToContent($event)" #editTitle>
+    <textarea class="note-content" placeholder="Content..." [formControl]="noteContent" (keydown)="moveToTitle($event)" #editContent></textarea>
     <span class="tags">
         <span *ngFor="let tag of tags" class="tag">
             <span class="delete-tag" (click)="removeTag(tag)">&nbsp;x&nbsp;</span>
