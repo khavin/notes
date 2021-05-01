@@ -45,6 +45,14 @@ export class NotesViewEditComponent implements OnInit {
   ngOnInit(): void {
     this.store.pipe(select(getSelectedNoteAndID)).subscribe((data) => {
       if (data[0] != this.id) {
+
+        // Remove previous form control Subscription
+        if (this.subscriptions.length > 0) {
+          for (let subscription of this.subscriptions) {
+            subscription.unsubscribe();
+          }
+        }
+
         // Save previous note
         if (this.id) {
           if (this.title == '' && this.content == '') {
@@ -62,17 +70,12 @@ export class NotesViewEditComponent implements OnInit {
           }
         }
 
-        // Remove previous form control Subscription
-        if (this.subscriptions.length > 0) {
-          for (let subscription of this.subscriptions) {
-            subscription.unsubscribe();
-          }
-        }
-
         // Get new note
         this.id = data[0];
         this.note = data[1];
-        this.lastModifiedTime = this.formatTime(this.note.lastModified);
+        if(this.note != null){
+          this.lastModifiedTime = this.formatTime(this.note.lastModified);
+        }
 
         // Create new form controls
         this.noteTitle = new FormControl('');
@@ -203,7 +206,6 @@ export class NotesViewEditComponent implements OnInit {
   }
 
   moveToTitle(event): void {
-    console.log(this.editTitle);
     if (event.key == 'Backspace' && this.content.length == 0) {
       event.preventDefault();
       this.editTitle.first.nativeElement.focus();

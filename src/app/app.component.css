@@ -41,7 +41,7 @@
     background-color: #1a1a1a;
     height: 100%;
     display: grid;
-    grid-template-rows: 1fr 1fr 12fr 3fr 2fr;
+    grid-template-rows: 1fr 1fr 12fr 2fr 3fr;
     overflow: hidden;
 }
 app-tags-list{
@@ -54,4 +54,15 @@ app-tags-list{
     color: orange;
     font-size: 1.25rem;
     cursor: pointer;
+}
+.note-unable-to-preview{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: grey;
+    background-color: #1a1a1a;
+}
+[hidden] {
+    display: none !important;
 }

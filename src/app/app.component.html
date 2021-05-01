@@ -14,7 +14,8 @@
         </div>
         <div class="notes-list-view-edit">
             <app-notes-list class="notes-list"></app-notes-list>
-            <app-notes-view-edit class="notes-view-edit"></app-notes-view-edit>
+            <app-notes-view-edit [hidden]="!noteAvailableToDisplay" class="notes-view-edit"></app-notes-view-edit>
+            <div class="note-unable-to-preview" [hidden]="noteAvailableToDisplay">Click a note to preview</div>
         </div>
     </div>
 </div>

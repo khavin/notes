@@ -565,6 +565,8 @@ export const globalReducer = createReducer(
             updatedNotes[key] = state['notes']['notesByID'][key];
           }
         }
+      }else{
+        updatedNotes = state['notes']['notesByID'];
       }
 
       return {
