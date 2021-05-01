@@ -146,7 +146,6 @@ export class DateRowsComponent implements OnInit {
       }
       dateColorList = dateColorList.concat(dateObject);
     }
-    console.log(dateColorList);
     this.dateColorList = dateColorList;
   }
 }

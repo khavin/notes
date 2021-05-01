@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { createNote, editNote, deleteNote } from '../notes.actions';
 import { getSelectedNoteAndID } from '../notes.selector';
@@ -20,6 +20,9 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./notes-view-edit.component.css'],
 })
 export class NotesViewEditComponent implements OnInit {
+
+  @ViewChildren("editContent") editContent:QueryList<any>;
+  @ViewChildren("editTitle") editTitle:QueryList<any>;
   id: string;
   title: string = null;
   content: string = null;
@@ -87,20 +90,20 @@ export class NotesViewEditComponent implements OnInit {
 
         // Emit title as it changes to note list component
         this.noteTitle.valueChanges.subscribe((data) => {
+          this.title = data;
           this.notesService.selectedNoteTitle.next(data);
         })
         this.noteContent.valueChanges.subscribe((data) => {
+          this.content = data;
           this.notesService.selectedNoteContent.next(data);
         })
 
         let subscriptions:Array<Subscription> = [];
 
         subscriptions.push(titleObservable.subscribe((data) => {
-          this.title = data;
           this.checkForChanges();
         }));
         subscriptions.push(contentObservable.subscribe((data) => {
-          this.content = data;
           this.checkForChanges();
         }));
 
@@ -187,6 +190,21 @@ export class NotesViewEditComponent implements OnInit {
      let updatedTags = Object.keys(rest).map(k => rest[k]);
      this.tags = [...updatedTags];
      this.checkForChanges();
+    }
+  }
+
+  moveToContent(event): void {
+    if(event.key == "Enter"){
+      event.preventDefault();
+      this.editContent.first.nativeElement.focus();
+    }
+  }
+
+  moveToTitle(event): void {
+    console.log(this.editTitle);
+    if(event.key == "Backspace" && this.content.length == 0){
+      event.preventDefault();
+      this.editTitle.first.nativeElement.focus();
     }
   }
 }
