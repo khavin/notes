@@ -11,12 +11,14 @@
     </span>
     </span>
     <span class="edited-time">{{ lastModifiedTime }}</span>
-    <i *ngIf="!(!title && !content)" class="material-icons delete-icon" (click)="deleteNote()">
-        delete_outline
-    </i>
-    <i *ngIf="!title && !content" class="material-icons disabled-delete-icon">
-        delete_outline
-    </i>
+    <span class="delete-section">
+        <i *ngIf="!(!title && !content)" class="material-icons delete-icon" (click)="deleteNote()">
+            delete_outline
+        </i>
+        <i *ngIf="!title && !content" class="material-icons disabled-delete-icon">
+            delete_outline
+        </i>
+    </span>
 </div>
 <input class="note-title" placeholder="Title..." type="text" [formControl]="noteTitle" (keydown)="moveToContent($event)" #editTitle>
 <textarea class="note-content" placeholder="Content..." [formControl]="noteContent" (keydown)="moveToTitle($event)" #editContent></textarea>

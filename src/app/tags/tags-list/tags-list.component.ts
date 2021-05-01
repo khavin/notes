@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { allTags } from '../tags.selector';
 import { search } from '../../search/search.actions';
+import { searchString } from '../../search/search.selector';
 
 @Component({
   selector: 'app-tags-list',
@@ -12,11 +13,15 @@ export class TagsListComponent implements OnInit {
 
   tags:Array<string> = [];
   searchedTag:string = '';
+  searchString:string = '';
   constructor(private store:Store) { }
   
   ngOnInit(): void {
     this.store.select(allTags).subscribe((data) => {
       this.tags = data;
+    })
+    this.store.select(searchString).subscribe((data) => {
+      this.searchString = data.toLowerCase();
     })
   }
 
@@ -27,8 +32,7 @@ export class TagsListComponent implements OnInit {
     }else{
       this.searchedTag = tag;
       this.store.dispatch(search({searchString: tag}));
-    }
-    
+    } 
   }
 
 }

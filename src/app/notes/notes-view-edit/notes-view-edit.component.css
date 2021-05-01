@@ -1,9 +1,7 @@
 .color-picker{
     display: flex;
-}
-.check-mark{
-    color: white;
-    font-size: 0.75rem;
+    align-items: center;
+
 }
 .note-title{
     font-family: inherit;
@@ -57,13 +55,20 @@
     cursor: pointer;
 }
 .note-info{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
 }
 .edited-time{
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 1rem;
     color: grey;
+}
+.delete-section{
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
 }
 .delete-icon{
     color: #FC031C;

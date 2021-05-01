@@ -1,3 +1,8 @@
-<span class="tag" *ngFor="let tag of tags" (click)="searchTag(tag)">
-    {{ tag }}
+<span *ngFor="let tag of tags" (click)="searchTag(tag)">
+    <span *ngIf="tag.toLowerCase() ==  searchString" class="tag selected-tag">
+        {{ tag }}
+    </span>
+    <span *ngIf="tag.toLowerCase() !=  searchString" class="tag unselected-tag">
+        {{ tag }}
+    </span>
 </span>
