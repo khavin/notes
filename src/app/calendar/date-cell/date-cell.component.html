@@ -1,4 +1,4 @@
-<span class="date" (click)="selectDate()">{{ date['date'] }}</span>
+<span class="date" [class.not-current-month]="!date['currentMonth']" (click)="selectDate()">{{ date['date'] }}</span>
 <span class="color-tags">
     <span *ngFor="let color of date['colors'].slice(0,3)" class="material-icons color-tag" [ngStyle]="{'color': colorPalette[color] }">
         circle
