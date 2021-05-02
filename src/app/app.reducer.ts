@@ -196,7 +196,7 @@ const initialState: Object = {
         id: 'test 1q',
         title: "Chennai super kings",
         content: 'The Chennai Super Kings are a franchise cricket team based in Chennai, Tamil Nadu. They play in the Indian Premier League. Founded in 2008, the team plays its home matches at the M. A. Chidambaram Stadium in Chennai.',
-        color: '',
+        color: 'YELLOW',
         tags: [],
         lastModified: new Date(),
       },

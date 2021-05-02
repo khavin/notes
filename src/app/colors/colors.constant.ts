@@ -4,7 +4,7 @@ export const colorDefinitions:colors = {
     "GREEN": "#05A872",
     "RED": "#FC031C",
     "PINK": "#E83FD7",
-    "YELLOW": "#FCBA03",
+    "YELLOW": "#F2E30A",
     "VIOLET": "#510587",
     "ORANGE": "#FC7303",
     "EMPTY": "#FFF"
