@@ -37,7 +37,6 @@ export class DateRowsComponent implements OnInit {
         "month": parseInt(data[1])-1,
         "date": parseInt(data[2])
       };
-      console.log(this.selectedDate);
     })
   }
   
