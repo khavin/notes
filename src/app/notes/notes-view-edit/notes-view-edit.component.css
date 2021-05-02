@@ -75,7 +75,12 @@
 }
 .delete-icon{
     color: #FC031C;
+    padding: 0.2rem;
     cursor: pointer;
+}
+.delete-icon:hover{
+    background-color: #262626;
+    border-radius: 0.2rem;
 }
 .disabled-delete-icon{
     color: grey;

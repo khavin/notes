@@ -15,8 +15,8 @@ body{
     display: none !important;
 }
 :root{
-   --accent-color: orange;
+   --accent-color: #ffa600;
    --tag-color: grey;
    --tag-background: #262626;
-   --button-background: orange;
+   --button-background: #ffa600;
 }
