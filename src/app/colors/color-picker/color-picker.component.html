@@ -2,7 +2,7 @@
     <span *ngIf="!noColorSelected && pickedColors.includes(color)" class="material-icons color-dot" [ngStyle]="{'color': colorPalette[color] }" (click)="colorSelected(color)">
         check_circle
     </span>
-    <span *ngIf="!(!noColorSelected && pickedColors.includes(color))" class="material-icons color-dot" [ngStyle]="{'color': colorPalette[color] }" (click)="colorSelected(color)">
+    <span *ngIf="!(!noColorSelected && pickedColors.includes(color))" title="Search by color" class="material-icons color-dot" [ngStyle]="{'color': colorPalette[color] }" (click)="colorSelected(color)">
         circle
     </span>
 </span>

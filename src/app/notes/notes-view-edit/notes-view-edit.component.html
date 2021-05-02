@@ -5,14 +5,14 @@
         <span *ngIf="pickedColor == color" class="material-icons color-tag" [ngStyle]="{'color': colorPalette[color] }">
             check_circle
         </span>
-        <span *ngIf="! (pickedColor == color)" class="material-icons color-tag" [ngStyle]="{'color': colorPalette[color] }">
+        <span *ngIf="! (pickedColor == color)" class="material-icons color-tag" title="Add color tag" [ngStyle]="{'color': colorPalette[color] }">
             circle
         </span>
     </span>
     </span>
     <span class="edited-time">{{ lastModifiedTime }}</span>
     <span class="delete-section">
-        <i *ngIf="!(!title && !content)" class="material-icons delete-icon" (click)="deleteNote()">
+        <i *ngIf="!(!title && !content)" class="material-icons delete-icon" title="Delete note" (click)="deleteNote()">
             delete_outline
         </i>
         <i *ngIf="!title && !content" class="material-icons disabled-delete-icon">
@@ -26,7 +26,7 @@
 <span class="tags">
     <span *ngFor="let tag of tags" class="full-tag">
         <span class="tag">
-            <span class="material-icons delete-tag" (click)="removeTag(tag)">
+            <span class="material-icons delete-tag" title="Remove tag" (click)="removeTag(tag)">
                 close
             </span>
             <span class="tag-text">{{tag}}</span>
