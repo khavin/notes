@@ -8,7 +8,7 @@
     cursor: pointer;
 }
 .selected-year{
-    color: orange;
+    color: var(--accent-color);
 }
 .first-entry{
     font-size: 0.7rem;

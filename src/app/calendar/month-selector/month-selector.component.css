@@ -6,7 +6,7 @@
     text-align: center;
 }
 .selected-month{
-    color: orange;
+    color: var(--accent-color);
 }
 .month{
     display: flex;

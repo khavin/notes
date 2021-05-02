@@ -76,7 +76,7 @@ app-color-picker{
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: orange;
+    background-color: var(--button-background);
     color: white;
     cursor: pointer;
     border-radius: 0.2rem;
