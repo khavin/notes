@@ -65,131 +65,63 @@ const initialState: Object = {
       },
       'test 1': {
         id: 'test 1',
-        title: 'First note',
-        content: 'Its first',
+        title: 'About me',
+        content: 'The main purpose of this project is to learn angular and ngrx.\nMy github link: https://github.com/khavin',
+        color: '',
+        tags: ['personal'],
+        lastModified: new Date(),
+      },
+      'test 1a': {
+        id: 'test 1a',
+        title: 'Apple wwdc event',
+        content: 'Apple Worldwide Developers Conference is an information technology conference held annually by Apple Inc. Expected releases: New privacy feature, new ios, ipados, macos.',
         color: 'BLUE',
-        tags: ['Personal',"test","cricket","baseball","hockey","1","2","3","4","5","6","7","8","9","abc","def","jalkdjf","fajsdka","dfjalsdjflak","yfh","faskjfka","fjakjf","fakjfklajdfkajkjkfjkf","fkjakfjka","jfkajfkj3","jflkajf djfk","fjlkdfjak fjfk fkjdf df j","dfjakfjkj343","dfjakfjkaj33 k3 3"],
+        tags: ['apple','event'],
         lastModified: new Date(),
       },
-      'test 2': {
-        id: 'test 2',
-        title: 'Second note',
-        content: 'Its second',
-        color: 'ORANGE',
-        tags: ['Mclaren'],
+      'test 1b': {
+        id: 'test 1b',
+        title: 'Ferrari',
+        content: 'Ferrari S.p.A. is an Italian luxury sports car manufacturer based in Maranello, Italy. Founded by Enzo Ferrari in 1939 out of the Alfa Romeo race division as Auto Avio Costruzioni, the company built its first car in 1940, and produced its first Ferrari-badged car in 1947.',
+        color: 'RED',
+        tags: ['ferrari','f1'],
         lastModified: new Date(),
       },
-      
-      'test 2a': {
-        id: 'test 2a',
-        title: 'Second note',
-        content: 'Its second',
+      'test 1c': {
+        id: 'test 1c',
+        title: 'Mclaren',
+        content: 'McLaren Racing Limited is a British motor racing team based at the McLaren Technology Centre in Woking, Surrey, England.',
         color: 'ORANGE',
-        tags: ['Mclaren'],
+        tags: ['mclaren','f1'],
         lastModified: new Date(),
       },
-      
-      'test 2b': {
-        id: 'test 2b',
-        title: 'Second note',
-        content: 'Its second',
-        color: 'ORANGE',
-        tags: ['Mclaren'],
+      'test 1d': {
+        id: 'test 1d',
+        title: 'Google I/O',
+        content: 'Google I/O is an annual developer conference held by Google in Mountain View, California. "I/O" stands for input/output, as well as the slogan "Innovation in the Open".',
+        color: 'GREEN',
+        tags: ['google','event'],
         lastModified: new Date(),
       },
-      
-      'test 2c': {
-        id: 'test 2c',
-        title: 'Second note',
-        content: 'Its second',
-        color: 'ORANGE',
-        tags: ['Mclaren'],
+      'test 1e': {
+        id: 'test 1e',
+        title: 'GOAT of F1',
+        content: 'Sir Lewis Carl Davidson Hamilton MBE HonFREng is a British racing driver. He currently competes in Formula One for Mercedes, having previously driven for McLaren from 2007 to 2012.',
+        color: 'VIOLET',
+        tags: ['mclaren','mercedes','f1'],
         lastModified: new Date(),
       },
-      
-      'test 2d': {
-        id: 'test 2d',
-        title: 'Second note',
-        content: 'Its second',
+      'test 1f': {
+        id: 'test 1f',
+        title: 'Honey Badger',
+        content: 'Daniel Joseph Ricciardo is an Italian-Australian racing driver who is currently competing in Formula One, under the Australian flag, for McLaren.',
         color: 'ORANGE',
-        tags: ['Mclaren'],
+        tags: ['mclaren','f1'],
         lastModified: new Date(),
       },
       
       'test 2e': {
         id: 'test 2e',
-        title: 'Second note',
-        content: 'Its second',
-        color: 'ORANGE',
-        tags: ['Mclaren'],
-        lastModified: new Date(),
-      },
-      
-      'test 2f': {
-        id: 'test 2f',
-        title: 'Second note',
-        content: 'Its second',
-        color: 'ORANGE',
-        tags: ['Mclaren'],
-        lastModified: new Date(),
-      },
-      
-      'test 2g': {
-        id: 'test 2g',
-        title: 'Second note',
-        content: 'Its second',
-        color: 'ORANGE',
-        tags: ['Mclaren'],
-        lastModified: new Date(),
-      },
-      
-      'test 2h': {
-        id: 'test 2h',
-        title: 'Second note',
-        content: 'Its second',
-        color: 'ORANGE',
-        tags: ['Mclaren'],
-        lastModified: new Date(),
-      },
-      
-      'test 2i': {
-        id: 'test 2i',
-        title: 'Second note',
-        content: 'Its second',
-        color: 'ORANGE',
-        tags: ['Mclaren'],
-        lastModified: new Date(),
-      },
-      
-      'test 2j': {
-        id: 'test 2j',
-        title: 'Second note',
-        content: 'Its second',
-        color: 'ORANGE',
-        tags: ['Mclaren'],
-        lastModified: new Date(),
-      },
-      
-      'test 2k': {
-        id: 'test 2k',
-        title: 'Second note',
-        content: 'Its second',
-        color: 'ORANGE',
-        tags: ['Mclaren'],
-        lastModified: new Date(),
-      },
-      
-      'test 2l': {
-        id: 'test 2l',
-        title: 'Second note',
-        content: 'Its second',
-        color: 'ORANGE',
-        tags: ['Mclaren'],
-        lastModified: new Date(),
-      },
-      
-      'test 2m': {
-        id: 'test 2m',
         title: 'Second note',
         content: 'Its second',
         color: 'ORANGE',

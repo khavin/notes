@@ -5,7 +5,8 @@ export const colorDefinitions:colors = {
     "RED": "#FC031C",
     "PINK": "#E83FD7",
     "YELLOW": "#FCBA03",
-    "VIOLET": "#3F61E8",
-    "ORANGE": "#FC7303"
+    "VIOLET": "#510587",
+    "ORANGE": "#FC7303",
+    "EMPTY": "#FFF"
 }
 export const allColors:Array<string> = ["BLUE","GREEN","RED","PINK","YELLOW","VIOLET","ORANGE"];

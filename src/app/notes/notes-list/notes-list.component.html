@@ -1,11 +1,12 @@
 <div *ngIf="notes.length > 0">
     <div class="note-preview" *ngFor="let note of notes" [class.selected]="note['id'] == selectedNoteID" (click)="selectNote(note['id'])">
-        <span [ngStyle]="{'backgroundColor': colorPalette[note['color']] }"></span>
+        <span *ngIf="!!note['color']" [ngStyle]="{'backgroundColor': colorPalette[note['color']] }"></span>
+        <span *ngIf="!note['color']" [ngStyle]="{'backgroundColor': colorPalette['EMPTY'] }"></span>
         <span class="note" *ngIf="note['id'] == selectedNoteID">
             <span class="note-title">{{ selectedNoteTitle }}</span>
             <span class="note-content">{{ selectedNoteContent }}</span>
         </span>
-        <span class="note not-selected" *ngIf="note['id'] != selectedNoteID">
+        <span class="note" *ngIf="note['id'] != selectedNoteID">
             <span *ngIf="!note['title']" class="note-title">
                 Untitled
             </span>
