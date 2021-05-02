@@ -1,6 +1,9 @@
 .color-tag{
     font-size: 0.4rem;
 }
+.plus-tag{
+    font-size: 0.5rem;
+}
 .date,.color-tags{
     display: flex;
     justify-content: center;

@@ -42,6 +42,7 @@
     font-size: 1.25rem;
 }
 .calendar-entry{
+    color: grey;
     display: flex;
     justify-content: center;
     align-items: center;

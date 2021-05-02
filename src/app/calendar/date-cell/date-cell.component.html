@@ -1,6 +1,9 @@
 <span class="date" (click)="selectDate()">{{ date['date'] }}</span>
 <span class="color-tags">
-    <span *ngFor="let color of date['colors']" class="material-icons color-tag" [ngStyle]="{'color': colorPalette[color] }">
+    <span *ngFor="let color of date['colors'].slice(0,3)" class="material-icons color-tag" [ngStyle]="{'color': colorPalette[color] }">
         circle
+    </span>
+    <span *ngIf="date['colors'].length > 3" class="material-icons plus-tag">
+        add
     </span>
 </span>
