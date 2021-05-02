@@ -13,13 +13,14 @@
 .notes-sidebar{
     display: grid;
     grid-template-rows: 7fr 1fr 1fr 1fr 7fr 1fr;
-    padding: 0 0.5rem;
+    padding: 0.5rem;
     overflow: hidden;
 }
 .notes-list-view-edit{
     display: grid;
     grid-template-columns: minmax(0,3fr) 7fr;
     overflow: hidden;
+    padding: 0.5rem;
 }
 .app-name{
     font-size: 1.5rem;
@@ -31,17 +32,18 @@
     grid-template-columns: 1fr 1fr 1fr;
 }
 .notes-list{
+    height: 100%;
     padding: 0.75rem;
     background-color: #0d0d0d;
     overflow-y: scroll;
 }
 .notes-view-edit{
-    padding: 0.5rem 1rem;
+    padding: 0.75rem;
     min-width: 0;
     background-color: #1a1a1a;
     height: 100%;
     display: grid;
-    grid-template-rows: 1fr 1fr 12fr 2fr 3fr;
+    grid-template-rows: 1fr 1fr 13fr 2fr 3fr;
     overflow: hidden;
 }
 app-tags-list{
@@ -53,6 +55,8 @@ app-color-picker{
     justify-content: space-evenly;
 }
 .note-unable-to-preview{
+    height: 100%;
+    padding: 0.75rem;
     display: flex;
     flex-direction: column;
     align-items: center;

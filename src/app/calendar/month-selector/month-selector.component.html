@@ -1,5 +1,5 @@
 <div class="month-selector">
-    <span *ngFor="let month of monthIndex" (click)="changeMonth(month)" [class.selected-month]="selectedMonth==month">
+    <span *ngFor="let month of monthIndex" (click)="changeMonth(month)" class="month" [class.selected-month]="selectedMonth==month">
         {{numberToMonthMappings[month]}}
     </span>
 </div>
