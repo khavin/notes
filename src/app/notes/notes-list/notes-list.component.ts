@@ -4,6 +4,7 @@ import { Note } from '../../app.reducer';
 import { selectNote } from '../notes.actions';
 import { getNotesForSelectedDate } from '../notes.selector';
 import { NotesService } from '../notes.service';
+import { colors,colorDefinitions } from '../../colors/colors.constant'
 
 @Component({
   selector: 'app-notes-list',
@@ -16,6 +17,7 @@ export class NotesListComponent implements OnInit {
   selectedNoteID:string = null;
   selectedNoteTitle:string = '';
   selectedNoteContent:string = '';
+  colorPalette:colors = colorDefinitions;
   constructor(private store:Store, private notesService:NotesService) { }
 
   ngOnInit(): void {

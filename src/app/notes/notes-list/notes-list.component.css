@@ -1,3 +1,7 @@
+.note-preview{
+    display: grid;
+    grid-template-columns: 1% 99%;
+}
 .note{
     display: grid;
     padding: 0.5rem 1rem;
