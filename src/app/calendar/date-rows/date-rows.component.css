@@ -10,7 +10,7 @@ calendar-date-row > span{
 app-date-cell{
     height: 100%;
     display: grid;
-    grid-template-rows: 80% 20%;
+    grid-template-rows: 75% 25%;
     cursor: pointer;
 }
 .date:hover{
@@ -19,9 +19,9 @@ app-date-cell{
 }
 .active{
     border-radius: 0.2rem;
-    background-color: orange;
+    background-color: var(--accent-color);
 }
 .active:hover{
     border-radius: 0.2rem;
-    background-color: orange;
+    background-color: var(--accent-color);
 }

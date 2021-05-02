@@ -14,3 +14,9 @@ body{
 [hidden] {
     display: none !important;
 }
+:root{
+   --accent-color: orange;
+   --tag-color: grey;
+   --tag-background: #262626;
+   --button-background: orange;
+}
