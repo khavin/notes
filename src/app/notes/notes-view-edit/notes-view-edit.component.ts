@@ -45,7 +45,6 @@ export class NotesViewEditComponent implements OnInit {
   ngOnInit(): void {
     this.store.pipe(select(getSelectedNoteAndID)).subscribe((data) => {
       if (data[0] != this.id) {
-
         // Remove previous form control Subscription
         if (this.subscriptions.length > 0) {
           for (let subscription of this.subscriptions) {
@@ -73,7 +72,7 @@ export class NotesViewEditComponent implements OnInit {
         // Get new note
         this.id = data[0];
         this.note = data[1];
-        if(this.note != null){
+        if (this.note != null) {
           this.lastModifiedTime = this.formatTime(this.note.lastModified);
         }
 
@@ -180,15 +179,19 @@ export class NotesViewEditComponent implements OnInit {
 
   addTag(event): void {
     if (event.key == 'Enter') {
-      let lowerCasedTags = [];
-      for(let tag of this.tags){
-        lowerCasedTags.push(tag.toLowerCase());
+      if (this.editingTag.trim().length > 0) {
+        let lowerCasedTags = [];
+        for (let tag of this.tags) {
+          lowerCasedTags.push(tag.toLowerCase());
+        }
+        if (!lowerCasedTags.includes(this.editingTag.toLowerCase())) {
+          this.tags = [...this.tags, this.editingTag.toLowerCase()];
+        }
+        this.noteTags.setValue('');
+        this.checkForChanges();
+      } else {
+        this.noteTags.setValue('');
       }
-      if (!lowerCasedTags.includes(this.editingTag.toLowerCase())) {
-        this.tags = [...this.tags, this.editingTag.toLowerCase()];
-      }
-      this.noteTags.setValue('');
-      this.checkForChanges();
     }
   }
 
@@ -221,8 +224,14 @@ export class NotesViewEditComponent implements OnInit {
       let date = dateObject.getDate();
       let month = numberToFullMonthMappings[dateObject.getMonth()];
       let year = dateObject.getFullYear();
-      let hour = dateObject.getHours() < 10 ? "0"+dateObject.getHours().toString() : dateObject.getHours().toString();
-      let minutes = dateObject.getMinutes() < 10 ? "0"+dateObject.getMinutes().toString() : dateObject.getMinutes().toString();
+      let hour =
+        dateObject.getHours() < 10
+          ? '0' + dateObject.getHours().toString()
+          : dateObject.getHours().toString();
+      let minutes =
+        dateObject.getMinutes() < 10
+          ? '0' + dateObject.getMinutes().toString()
+          : dateObject.getMinutes().toString();
       return (
         date.toString() +
         ' ' +
