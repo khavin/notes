@@ -117,7 +117,6 @@ export class NotesViewEditComponent implements OnInit {
         subscriptions.push(
           this.noteTags.valueChanges.subscribe((data) => {
             this.editingTag = data;
-            this.checkForChanges();
           })
         );
 
