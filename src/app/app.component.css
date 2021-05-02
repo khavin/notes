@@ -27,6 +27,7 @@
     align-items: center;
     font-size: 1.5rem;
     font-weight: 500;
+    padding-left: 0.5rem;
 }
 app-search-bar{
     display: flex;

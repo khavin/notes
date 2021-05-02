@@ -62,6 +62,7 @@ export class DateRowsComponent implements OnInit {
         month: lastDatePreviousMonth.getMonth(),
         year: lastDatePreviousMonth.getFullYear(),
         colors: [],
+        currentMonth: false
       });
     }
 
@@ -73,6 +74,7 @@ export class DateRowsComponent implements OnInit {
         month: firstDate.getMonth(),
         year: firstDate.getFullYear(),
         colors: [],
+        currentMonth: true
       });
     }
 
@@ -88,6 +90,7 @@ export class DateRowsComponent implements OnInit {
         month: nextMonthDate.getMonth(),
         year: nextMonthDate.getFullYear(),
         colors: [],
+        currentMonth: false
       });
     }
 
