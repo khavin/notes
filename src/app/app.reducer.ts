@@ -141,19 +141,19 @@ const initialState: Object = {
         title: 'Dark knight rises',
         content: 'Bane, an imposing villian, attacks Gotham City and disrupts its eight-year-long period of peace. This forces Bruce Wayne to come out of hiding and don the cape and cowl of Batman again.',
         color: 'GREEN',
-        tags: [],
+        tags: ['batman'],
         lastModified: new Date(new Date(currentDate).setDate(currentDate.getDate()-4)),
       },
-      'test 4': {
-        id: 'test 4',
+      'test 1k': {
+        id: 'test 1k',
         title: 'New Year',
         content: 'Finally 2020 is over',
         color: 'RED',
         tags: [],
         lastModified: new Date(Date.parse('2021-01-01T00:01:00.000Z')),
       },
-      'test 5': {
-        id: 'test 5',
+      'test 1l': {
+        id: 'test 1l',
         title: "New Year's Eve",
         content: 'Finally 2020 is going to end',
         color: 'RED',
