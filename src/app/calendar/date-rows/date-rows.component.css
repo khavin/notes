@@ -13,7 +13,15 @@ app-date-cell{
     grid-template-rows: 80% 20%;
     cursor: pointer;
 }
+.date:hover{
+    background-color: #262626;
+    border-radius: 0.2rem;
+}
 .active{
+    border-radius: 0.2rem;
+    background-color: orange;
+}
+.active:hover{
     border-radius: 0.2rem;
     background-color: orange;
 }

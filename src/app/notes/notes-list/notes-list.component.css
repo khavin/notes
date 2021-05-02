@@ -14,19 +14,16 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-.note-separator{
-    border-top: 1px solid orange;
-    width: 100%;
-}
 .selected{
-    background-color: orange;
+    background-color: #262626;
 }
 .not-selected{
-    border-bottom: 1px solid grey;
+    border-bottom: 1px solid #262626;
 }
 .empty-list{
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
+    color: grey;
 }

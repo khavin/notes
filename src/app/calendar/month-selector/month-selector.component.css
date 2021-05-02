@@ -6,5 +6,15 @@
     text-align: center;
 }
 .selected-month{
-    color: blueviolet;
+    color: orange;
+}
+.month{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.month:hover{
+    background-color: #262626;
+    border-radius: 0.5rem;
 }

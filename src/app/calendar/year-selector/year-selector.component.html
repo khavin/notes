@@ -1,3 +1,6 @@
 <div #yearSelector class="year-selector">
-    <span *ngFor="let year of yearPreviews" (click)="changeYear(year)" [class.selected-year]="year==selectedYear">{{ year }}</span>
+    <span *ngFor="let year of yearPreviews; let i = index" (click)="changeYear(year)" class="year"
+        [class.first-entry]="i==0 || i==6" [class.second-entry]="i==1 || i==5"
+        [class.third-entry]="i==2 || i==4" [class.fourth-entry]="i==3"
+        [class.selected-year]="year==selectedYear">{{ year }}</span>
 </div>
