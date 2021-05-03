@@ -1,30 +1,30 @@
 <div class="calendar-date-row">
     <span *ngFor="let date of dateColorList.slice(0,7)">
-        <app-date-cell [date]='date'></app-date-cell>
+        <app-date-cell class="date" [class.active]="date['year'] == selectedDate['year'] && date['month'] == selectedDate['month'] && date['date'] == selectedDate['date']" [date]='date'></app-date-cell>
     </span>
 </div>
 <div class="calendar-date-row">
     <span *ngFor="let date of dateColorList.slice(7,14)">
-        <app-date-cell [date]='date'></app-date-cell>
+        <app-date-cell class="date" [class.active]="date['year'] == selectedDate['year'] && date['month'] == selectedDate['month'] && date['date'] == selectedDate['date']" [date]='date'></app-date-cell>
     </span>
 </div>
 <div class="calendar-date-row">
     <span *ngFor="let date of dateColorList.slice(14,21)">
-        <app-date-cell [date]='date'></app-date-cell>
+        <app-date-cell class="date" [class.active]="date['year'] == selectedDate['year'] && date['month'] == selectedDate['month'] && date['date'] == selectedDate['date']" [date]='date'></app-date-cell>
     </span>
 </div>
 <div class="calendar-date-row">
     <span *ngFor="let date of dateColorList.slice(21,28)">
-        <app-date-cell [date]='date'></app-date-cell>
+        <app-date-cell class="date" [class.active]="date['year'] == selectedDate['year'] && date['month'] == selectedDate['month'] && date['date'] == selectedDate['date']" [date]='date'></app-date-cell>
     </span>
 </div>
 <div class="calendar-date-row">
     <span *ngFor="let date of dateColorList.slice(28,35)">
-        <app-date-cell [date]='date'></app-date-cell>
+        <app-date-cell class="date" [class.active]="date['year'] == selectedDate['year'] && date['month'] == selectedDate['month'] && date['date'] == selectedDate['date']" [date]='date'></app-date-cell>
     </span>
 </div>
 <div class="calendar-date-row">
     <span *ngFor="let date of dateColorList.slice(35,42)">
-        <app-date-cell [date]='date'></app-date-cell>
+        <app-date-cell class="date" [class.active]="date['year'] == selectedDate['year'] && date['month'] == selectedDate['month'] && date['date'] == selectedDate['date']" [date]='date'></app-date-cell>
     </span>
 </div>

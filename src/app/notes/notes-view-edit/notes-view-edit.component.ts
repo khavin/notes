@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { createNote, editNote, deleteNote } from '../notes.actions';
+import { editNote, deleteNote } from '../notes.actions';
 import { getSelectedNoteAndID } from '../notes.selector';
 import { NotesService } from '../notes.service';
 import {
@@ -8,10 +8,10 @@ import {
   colorDefinitions,
   allColors,
 } from '../../colors/colors.constant';
+import { numberToFullMonthMappings } from '../../calendar/calendar.constants';
 import { Note } from 'src/app/app.reducer';
 import { FormControl } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
-import { v1 as uuidv1 } from 'uuid';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -20,9 +20,11 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./notes-view-edit.component.css'],
 })
 export class NotesViewEditComponent implements OnInit {
+  @ViewChildren('editContent') editContent: QueryList<any>;
+  @ViewChildren('editTitle') editTitle: QueryList<any>;
   id: string;
-  title: string = null;
-  content: string = null;
+  title: string = '';
+  content: string = '';
   note: Note;
   prevNote: Note;
   mode: string = 'edit' || 'create';
@@ -30,6 +32,7 @@ export class NotesViewEditComponent implements OnInit {
   noteContent: any;
   noteTags: any;
   editingTag: string;
+  lastModifiedTime: string;
   availableColors: Array<string> = allColors;
   selectedColor: any;
   colorPalette: colors = colorDefinitions;
@@ -37,11 +40,17 @@ export class NotesViewEditComponent implements OnInit {
   tags: Array<string> = [];
   saveInterval: number = 500;
   subscriptions: Array<Subscription> = [];
-  constructor(private store: Store, private notesService:NotesService) {}
+  constructor(private store: Store, private notesService: NotesService) {}
 
   ngOnInit(): void {
     this.store.pipe(select(getSelectedNoteAndID)).subscribe((data) => {
       if (data[0] != this.id) {
+        // Remove previous form control Subscription
+        if (this.subscriptions.length > 0) {
+          for (let subscription of this.subscriptions) {
+            subscription.unsubscribe();
+          }
+        }
 
         // Save previous note
         if (this.id) {
@@ -54,22 +63,21 @@ export class NotesViewEditComponent implements OnInit {
                 title: this.title,
                 content: this.content,
                 color: this.pickedColor,
-                tags: this.tags
+                tags: this.tags,
               })
             );
-          }
-        }
-
-        // Remove previous form control Subscription
-        if (this.subscriptions.length > 0){
-          for(let subscription of this.subscriptions){
-            subscription.unsubscribe();
           }
         }
 
         // Get new note
         this.id = data[0];
         this.note = data[1];
+        if (this.note != null) {
+          this.lastModifiedTime = this.formatTime(this.note.lastModified);
+        }
+
+        // auto focus
+        if(this.id && !this.note.title && !this.note.content) this.editTitle.first.nativeElement.focus();
 
         // Create new form controls
         this.noteTitle = new FormControl('');
@@ -85,29 +93,35 @@ export class NotesViewEditComponent implements OnInit {
           debounceTime(this.saveInterval)
         );
 
-        // Emit title as it changes to note list component
+        // Emit title when it changes, to note list component
         this.noteTitle.valueChanges.subscribe((data) => {
-          this.notesService.selectedNoteTitle.next(data);
-        })
-        this.noteContent.valueChanges.subscribe((data) => {
-          this.notesService.selectedNoteContent.next(data);
-        })
-
-        let subscriptions:Array<Subscription> = [];
-
-        subscriptions.push(titleObservable.subscribe((data) => {
           this.title = data;
-          this.checkForChanges();
-        }));
-        subscriptions.push(contentObservable.subscribe((data) => {
+          this.notesService.selectedNoteTitle.next(data);
+        });
+        // Emit content when it changes, to note list component
+        this.noteContent.valueChanges.subscribe((data) => {
           this.content = data;
-          this.checkForChanges();
-        }));
+          this.notesService.selectedNoteContent.next(data);
+        });
 
-        subscriptions.push(this.noteTags.valueChanges.subscribe((data) => {
-          this.editingTag = data;
-          this.checkForChanges();
-        }));
+        let subscriptions: Array<Subscription> = [];
+
+        subscriptions.push(
+          titleObservable.subscribe((data) => {
+            this.checkForChanges();
+          })
+        );
+        subscriptions.push(
+          contentObservable.subscribe((data) => {
+            this.checkForChanges();
+          })
+        );
+
+        subscriptions.push(
+          this.noteTags.valueChanges.subscribe((data) => {
+            this.editingTag = data;
+          })
+        );
 
         // Set note info
         this.pickedColor = this.note.color;
@@ -118,7 +132,7 @@ export class NotesViewEditComponent implements OnInit {
         this.title = this.note.title;
         this.content = this.note.content;
 
-        this.prevNote = {...data[1]};
+        this.prevNote = { ...data[1] };
 
         this.subscriptions = [...subscriptions];
       }
@@ -126,29 +140,28 @@ export class NotesViewEditComponent implements OnInit {
   }
 
   checkForChanges(): void {
-      if (
-        (this.title != '' ||
-          this.content != '' ||
-          this.pickedColor != null) &&
-        (this.title != this.prevNote.title ||
-          this.content != this.prevNote.content ||
-          this.pickedColor != this.prevNote.color ||
-          this.tags != this.prevNote.tags)
-      ) {
-        this.prevNote.title = this.title;
-        this.prevNote.content = this.content;
-        this.prevNote.color = this.pickedColor;
-        this.prevNote.tags = this.tags;
-        this.store.dispatch(
-          editNote({
-            id: this.id,
-            title: this.title,
-            content: this.content,
-            color: this.pickedColor,
-            tags: this.tags
-          })
-        );
-      }
+    if (
+      (this.title != '' || this.content != '' || this.pickedColor != null) &&
+      (this.title != this.prevNote.title ||
+        this.content != this.prevNote.content ||
+        this.pickedColor != this.prevNote.color ||
+        this.tags != this.prevNote.tags)
+    ) {
+      this.prevNote.title = this.title;
+      this.prevNote.content = this.content;
+      this.prevNote.color = this.pickedColor;
+      this.prevNote.tags = this.tags;
+      this.lastModifiedTime = this.formatTime(new Date());
+      this.store.dispatch(
+        editNote({
+          id: this.id,
+          title: this.title,
+          content: this.content,
+          color: this.pickedColor,
+          tags: this.tags,
+        })
+      );
+    }
   }
 
   colorSelected(color: string): void {
@@ -166,27 +179,74 @@ export class NotesViewEditComponent implements OnInit {
     this.store.dispatch(deleteNote({ id: id }));
   }
 
-  createNote(): void {
-    this.store.dispatch(createNote({id: uuidv1()}))
-  }
-
   addTag(event): void {
-    if(event.key == "Enter"){
-      if(!this.tags.includes(this.editingTag)){
-        this.tags = [...this.tags, this.editingTag];
+    if (event.key == 'Enter') {
+      if (this.editingTag.trim().length > 0) {
+        let lowerCasedTags = [];
+        for (let tag of this.tags) {
+          lowerCasedTags.push(tag.toLowerCase());
+        }
+        if (!lowerCasedTags.includes(this.editingTag.toLowerCase())) {
+          this.tags = [...this.tags, this.editingTag.toLowerCase()];
+        }
+        this.noteTags.setValue('');
+        this.checkForChanges();
+      } else {
+        this.noteTags.setValue('');
       }
-      this.noteTags.setValue('');
-      this.checkForChanges();
     }
   }
 
   removeTag(tag): void {
     let tagIndex = this.tags.indexOf(tag);
-    if(tagIndex > -1){
-     let { [tagIndex]:removedTag, ...rest } = this.tags;
-     let updatedTags = Object.keys(rest).map(k => rest[k]);
-     this.tags = [...updatedTags];
-     this.checkForChanges();
+    if (tagIndex > -1) {
+      let { [tagIndex]: removedTag, ...rest } = this.tags;
+      let updatedTags = Object.keys(rest).map((k) => rest[k]);
+      this.tags = [...updatedTags];
+      this.checkForChanges();
+    }
+  }
+
+  moveToContent(event): void {
+    if (event.key == 'Enter') {
+      event.preventDefault();
+      this.editContent.first.nativeElement.focus();
+    }
+  }
+
+  moveToTitle(event): void {
+    if (event.key == 'Backspace' && this.content.length == 0) {
+      event.preventDefault();
+      this.editTitle.first.nativeElement.focus();
+    }
+  }
+
+  formatTime(dateObject: Date): string {
+    if (dateObject) {
+      let date = dateObject.getDate();
+      let month = numberToFullMonthMappings[dateObject.getMonth()];
+      let year = dateObject.getFullYear();
+      let hour =
+        dateObject.getHours() < 10
+          ? '0' + dateObject.getHours().toString()
+          : dateObject.getHours().toString();
+      let minutes =
+        dateObject.getMinutes() < 10
+          ? '0' + dateObject.getMinutes().toString()
+          : dateObject.getMinutes().toString();
+      return (
+        date.toString() +
+        ' ' +
+        month +
+        ' ' +
+        year.toString() +
+        ' at ' +
+        hour.toString() +
+        ':' +
+        minutes.toString()
+      );
+    } else {
+      return '';
     }
   }
 }

@@ -1,7 +1,8 @@
-<div *ngFor="let color of availableColors">
-    <span class="dot" [ngStyle]="{'backgroundColor': colorPalette[color] }" (click)="colorSelected(color)">
-        <span *ngIf="!noColorSelected && pickedColors.includes(color)" class="check-mark">
-            &#10003;
-        </span>
+<span *ngFor="let color of availableColors">
+    <span *ngIf="!noColorSelected && pickedColors.includes(color)" class="material-icons color-dot" [ngStyle]="{'color': colorPalette[color] }" (click)="colorSelected(color)">
+        check_circle
     </span>
-</div>
+    <span *ngIf="!(!noColorSelected && pickedColors.includes(color))" title="Search by color" class="material-icons color-dot" [ngStyle]="{'color': colorPalette[color] }" (click)="colorSelected(color)">
+        circle
+    </span>
+</span>

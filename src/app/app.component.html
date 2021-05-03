@@ -1,8 +1,26 @@
-<app-calendar></app-calendar>
-<app-color-picker></app-color-picker>
-<app-search-bar></app-search-bar>
-<br>
-<app-notes-list></app-notes-list>
-<app-notes-view-edit></app-notes-view-edit>
-<br>
-<app-tags-list></app-tags-list>
+<div class="notes">
+    <div class="navbar">
+        <span class="app-name">notes</span>
+        <app-search-bar></app-search-bar>
+    </div>
+    <div class="notes-content">
+        <div class="notes-sidebar">
+            <app-calendar></app-calendar>
+            <span class="section-title">Color filter</span>
+            <app-color-picker></app-color-picker>
+            <span class="section-title">Tags</span>
+            <app-tags-list></app-tags-list>
+            <span class="create-note" (click)="createNote()">
+                New Note&nbsp;
+                <span class="material-icons">
+                    mode_edit_outline
+                </span>
+            </span>
+        </div>
+        <div class="notes-list-view-edit">
+            <app-notes-list class="notes-list"></app-notes-list>
+            <app-notes-view-edit [hidden]="!noteAvailableToDisplay" class="notes-view-edit"></app-notes-view-edit>
+            <div class="note-unable-to-preview" [hidden]="noteAvailableToDisplay">Click a note to preview</div>
+        </div>
+    </div>
+</div>

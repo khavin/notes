@@ -1,5 +1,9 @@
-<span (click)="selectDate()">{{ date['date'] }}</span>
-<div>
-    <span *ngFor="let color of date['colors']" class="dot" [ngStyle]="{'backgroundColor': colorPalette[color] }">
+<span class="date" [class.not-current-month]="!date['currentMonth']" (click)="selectDate()">{{ date['date'] }}</span>
+<span class="color-tags">
+    <span *ngFor="let color of date['colors'].slice(0,3)" class="material-icons color-tag" [ngStyle]="{'color': colorPalette[color] }">
+        circle
     </span>
-</div>
+    <span *ngIf="date['colors'].length > 3" class="material-icons plus-tag">
+        add
+    </span>
+</span>

@@ -1,18 +1,49 @@
 .calendar{
-    width: 20%;    
+    height: 100%;
+    display: grid;
+    grid-template-rows: 1fr 7fr;
 }
 .calendar-header{
-    display: grid;
-    grid-template-rows: 1.5rem;
-    grid-template-columns: 50% 50%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 .calendar-header-navbar{
-    text-align: right;
+    display: flex;
+    flex-direction: row-reverse;
 }
 .calendar-day-names-row{
     font-size: 0.8rem;
     text-align: center;
     display: grid;
-    grid-template-rows: 1.5rem;
     grid-template-columns: repeat(7,1fr);
+}
+.calendar-content{
+    display: grid;
+    grid-template-rows: 1fr 6fr;
+}
+.year-picker{
+    height: 100%;
+}
+.month-picker{
+    height: 100%;
+}
+.calendar-navigation-button{
+    font-size: inherit;
+    padding: 0.25rem 0.5rem;
+    margin: 0 0.15rem;
+    display: inline-block;
+    text-align: center;
+    background-color: #262626;
+    cursor: pointer;
+    border-radius: 0.2rem;
+}
+.calendar-navigation-arrow{
+    font-size: 1.25rem;
+}
+.calendar-entry{
+    color: grey;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

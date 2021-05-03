@@ -1,11 +1,98 @@
-.dot{
-    height: 1rem;
-    width: 1rem;
-    border-radius: 50%;
+.color-picker{
     display: flex;
-    justify-content: center;
+    align-items: center;
+
 }
-.check-mark{
+.note-title{
+    font-family: inherit;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #1a1a1a;
+    border: none;
     color: white;
+    font-size: 1.25rem;
+}
+.note-title:focus{
+    outline: none;
+}
+.note-content{
+    font-family: inherit;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #1a1a1a;
+    border: none;
+    color: white;
+    font-size: 1.25rem;
+    resize: none;
+}
+.note-tag{
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #1a1a1a;
+    border: none;
+    color: white;
+    font-size: 1rem;
+}
+.note-tag:focus{
+    outline: none;
+}
+.note-content:focus{
+    outline: none;
+}
+.tags{
+    padding: 0.5rem 0;
+    overflow-y: scroll;
+}
+.tag{
+    display: flex;
+    align-items: center;
+    padding: 0.2rem;
+    border-radius: 0.2rem;
+    background-color: var(--tag-background);
+    color: var(--tag-color);
+    margin: 0.2rem 0.2rem;
+}
+.delete-tag{
+    padding: 0 0.25rem;
     font-size: 0.75rem;
+    cursor: pointer;
+}
+.note-info{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+}
+.edited-time{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    color: grey;
+}
+.delete-section{
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+}
+.delete-icon{
+    color: #FC031C;
+    padding: 0.2rem;
+    cursor: pointer;
+}
+.delete-icon:hover{
+    background-color: #262626;
+    border-radius: 0.2rem;
+}
+.disabled-delete-icon{
+    color: grey;
+    cursor: not-allowed;
+}
+.full-tag{
+    display: inline-block;
+}
+.color-tag{
+    font-size: 1.25rem;
+    cursor: pointer;
+}
+.tag-text{
+    padding-right: 0.25rem;
 }

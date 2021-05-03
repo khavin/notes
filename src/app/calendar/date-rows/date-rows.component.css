@@ -4,7 +4,24 @@
     grid-template-columns: repeat(7,1fr);
     text-align: center;
 }
+calendar-date-row > span{
+    height: 100%;
+}
 app-date-cell{
-    display: flex;
-    flex-direction: column;
+    height: 100%;
+    display: grid;
+    grid-template-rows: 75% 25%;
+    cursor: pointer;
+}
+.date:hover{
+    background-color: #262626;
+    border-radius: 0.2rem;
+}
+.active{
+    border-radius: 0.2rem;
+    background-color: var(--accent-color);
+}
+.active:hover{
+    border-radius: 0.2rem;
+    background-color: var(--accent-color);
 }

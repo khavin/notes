@@ -1,11 +1,4 @@
-.dot{
-    height: 1rem;
-    width: 1rem;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-}
-.check-mark{
-    color: white;
-    font-size: 0.75rem;
+.color-dot{
+    font-size: 2rem;
+    cursor: pointer;
 }
