@@ -76,6 +76,9 @@ export class NotesViewEditComponent implements OnInit {
           this.lastModifiedTime = this.formatTime(this.note.lastModified);
         }
 
+        // auto focus
+        if(this.id && !this.note.title && !this.note.content) this.editTitle.first.nativeElement.focus();
+
         // Create new form controls
         this.noteTitle = new FormControl('');
         this.noteContent = new FormControl('');
