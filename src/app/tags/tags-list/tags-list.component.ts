@@ -22,6 +22,7 @@ export class TagsListComponent implements OnInit {
     })
     this.store.select(searchString).subscribe((data) => {
       this.searchString = data.toLowerCase();
+      this.searchedTag = data.toLowerCase();
     })
   }
 

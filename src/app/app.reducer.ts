@@ -259,9 +259,7 @@ export const globalReducer = createReducer(
       ...state,
       calendar: {
         ...state['calendar'],
-        selectedDate: datePipe.transform(date, 'yyyy-MM-dd'),
-        selectedMonth: date.getMonth(),
-        selectedYear: date.getFullYear(),
+        selectedDate: datePipe.transform(date, 'yyyy-MM-dd')
       },
       notes: {
         ...state['notes'],
@@ -472,6 +470,7 @@ export const globalReducer = createReducer(
         pickedColors: allColors,
         noColorSelected: true,
       },
+      searchString: ''
     };
   }),
   on(editNote, (state, { id, title, content, color, tags }) => {
